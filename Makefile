@@ -1,0 +1,59 @@
+# executable name
+NAME = cub3d
+
+# flags
+CC = gcc
+CFLAGS = -Wall -Werror -Wextra
+
+# directories
+OBJDIR = ./obj/
+SRCDIR = ./src/
+
+# source files
+SRCFILES = main.c
+# object files
+OBJFILES = $(SRCFILES:.c=.o)
+
+# library paths
+LIBFT = ./inc/libft
+FT_PRINTF = ./inc/ft_printf
+MLX = ./inc/mlx
+
+# files path
+SRC = $(addprefix $(SRCDIR), $(SRCFILES))
+OBJ = $(addprefix $(OBJDIR), $(OBJFILES))
+
+# silence output 
+.SILENT:
+
+# all rule 
+all: $(OBJDIR) $(NAME)
+
+# compile executable and libraries
+$(NAME):	$(OBJ)
+	$(MAKE) -C $(LIBFT)
+	$(MAKE) -C $(MLX) 2>/dev/null
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT)/libft.a $(MLX)/libmlx.a -framework OpenGL -framework AppKit -o $@
+	echo "Compilation done successfully!"
+
+# compile objects
+$(OBJDIR)%.o: $(SRCDIR)%.c
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+# create object directory
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
+
+# clean rule
+clean:
+	rm -rf $(OBJDIR)
+	$(MAKE) -C $(LIBFT) clean
+	$(MAKE) -C $(MLX) clean
+
+# fclean rule
+fclean: clean
+	rm -f $(NAME)
+	$(MAKE) -C $(LIBFT) fclean
+
+# make re rule 
+re: fclean all
