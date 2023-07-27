@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:47:02 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/07/24 14:32:10 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/07/26 17:35:03 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int exit_game(t_data *data)
 {
     mlx_destroy_window(data->mlx_ptr, data->mlx_win);
     data->mlx_ptr = NULL;
+    if (data->rays)
+        free(data->rays);
     exit(EXIT_SUCCESS);
 }
 
@@ -144,6 +146,7 @@ void setup(t_data *data)
     data->player.turn_direction = 0; 
     data->player.rotation_angle = PI / 2; // it will be setted by the map, in this case it is 90 degrees radians facing South
     data->rays = init_rays(data);
+    data->color_buffer = malloc((data->window_width * data->window_height) * sizeof(uint32_t));
 }
 
 void init_buffer(t_data *data)
@@ -232,96 +235,10 @@ float get_hit_distance(float x0, float y0, float x1, float y1)
 
 void cast_ray(t_data *data, float ray_angle, int ray_id)
 {
-    // float xstep; // the deltax and deltay
-    // float ystep; // the deltax and deltay
-    // float xintercept; // the first intersection point
-    // float yintercept; // the first intersection point
-    // float next_xintercept;
-    // float next_yintercept;
-    // float next_yintercept_tmp;
-    // float wall_horz_x_hit;
-    // float wall_horz_y_hit;
-    // t_bool found_horz_hit;
-    // t_bool is_ray_facing_up;
-    // t_bool is_ray_facing_down;
-    // t_bool is_ray_facing_right;
-    // t_bool is_ray_facing_left;
-
-    // /////////////////////////////////////////////////////////////
-    // //////// HORIZONTAL INSTERSECTION IMPLEMENTATION ////////////
-    // /////////////////////////////////////////////////////////////
+    ray_angle = clean_angle(ray_angle);
     
-    // ray_angle = clean_angle(ray_angle);
-    // found_horz_hit = false;
-    // wall_horz_x_hit = 0;
-    // wall_horz_y_hit = 0;
-    
-    // //check the ray direction
-    // is_ray_facing_down = ray_angle < 0 && ray_angle < PI;
-    // is_ray_facing_up = !is_ray_facing_down;
-    // is_ray_facing_right = ray_angle < 0.5 * PI || ray_angle > 1.5 * PI;
-    // is_ray_facing_left = !is_ray_facing_right;
-
-    // // it rounds down the y coordinate of the player, getting the first horizontal line before the player coordinate 
-    // yintercept = floor(data->player.y / TILE_SIZE) * TILE_SIZE;
-    // // if the ray is facing down means is the next horizontal line after the player coordinate so we add tilesize
-    // if (is_ray_facing_down)
-    //     yintercept += TILE_SIZE;
-        
-    // xintercept = data->player.x + ((yintercept - data->player.y) / tan(ray_angle));
-    
-    
-    // ystep = TILE_SIZE;
-    // if (is_ray_facing_up)
-    //     ystep *= -1;
-        
-    // xstep = TILE_SIZE / tan(ray_angle);
-    // if (is_ray_facing_left && xstep > 0)
-    //     xstep *= -1;
-    // if (is_ray_facing_right && xstep < 0)
-    //     xstep *= -1;
-
-    // next_xintercept = xintercept;
-    // next_yintercept = yintercept;
-
-    // while ((next_xintercept >= 0 && next_xintercept <= data->window_width) && (next_yintercept >= 0 && next_yintercept <= data->window_height))
-    // {
-    //     next_yintercept_tmp = next_yintercept;
-    //     if (is_ray_facing_up)
-    //         next_yintercept_tmp--;
-    //     if(is_wall_at(data, next_xintercept, next_yintercept_tmp))
-    //     {
-    //         wall_horz_x_hit = next_xintercept;
-    //         wall_horz_y_hit = next_yintercept;
-    //         found_horz_hit = true;
-    //         break;
-    //     }
-    //     else 
-    //     {
-    //         next_xintercept += xstep;
-    //         next_yintercept += ystep;
-    //     }
-    // }
-    
-    // float horz_hit_distance;
-    // if (found_horz_hit)
-    // {
-    //     horz_hit_distance = get_hit_distance(data->player.x, data->player.y, wall_horz_x_hit, wall_horz_y_hit);
-    //     data->rays[ray_id].distance = horz_hit_distance;
-    //     data->rays[ray_id].wall_hit_x = wall_horz_x_hit;
-    //     data->rays[ray_id].wall_hit_y = wall_horz_y_hit;
-    //     data->rays[ray_id].was_hit_vertical = FALSE;
-    // }
-    //     data->rays[ray_id].ray_angle = ray_angle;
-    //     data->rays[ray_id].is_ray_facing_up = is_ray_facing_up;
-    //     data->rays[ray_id].is_ray_facing_down = is_ray_facing_down;
-    //     data->rays[ray_id].is_ray_facing_right = is_ray_facing_right;
-    //     data->rays[ray_id].is_ray_facing_left = is_ray_facing_left;
-
-     ray_angle = clean_angle(ray_angle);
-    
-    int isRayFacingDown = ray_angle > 0 && ray_angle < PI;
-    int isRayFacingUp = !isRayFacingDown;
+    int isRayFacingUp = ray_angle > PI && ray_angle < TWO_PI;
+    int isRayFacingDown = !isRayFacingUp;
 
     int isRayFacingRight = ray_angle < 0.5 * PI || ray_angle > 1.5 * PI;
     int isRayFacingLeft = !isRayFacingRight;
@@ -358,7 +275,9 @@ void cast_ray(t_data *data, float ray_angle, int ray_id)
     // Increment xstep and ystep until we find a wall
     while (nextHorzTouchX >= 0 && nextHorzTouchX <= data->window_width && nextHorzTouchY >= 0 && nextHorzTouchY <= data->window_height) {
         float xToCheck = nextHorzTouchX;
-        float yToCheck = nextHorzTouchY + (isRayFacingUp ? -1 : 0);
+        float yToCheck = nextHorzTouchY;
+        if (isRayFacingUp)
+            yToCheck--;
         
         if (is_wall_at(data, xToCheck, yToCheck)) {
             // found a wall hit
@@ -473,10 +392,10 @@ void render_ray(t_data *data)
     {
         draw_line(
             data, 
-            data->player.x, 
-            data->player.y, 
-            data->rays[i].wall_hit_x, 
-            data->rays[i].wall_hit_y, 
+            data->player.x * MINI_MAP_SCALE, 
+            data->player.y * MINI_MAP_SCALE, 
+            data->rays[i].wall_hit_x * MINI_MAP_SCALE, 
+            data->rays[i].wall_hit_y * MINI_MAP_SCALE, 
             RED);
         i++;
     }
@@ -509,6 +428,36 @@ void render_map(t_data *data)
     }
 }
 
+void render_color_buffer(t_data *data)
+{
+    int x;
+    int y;
+
+    x = 0;
+    while (x < data->window_width)
+    {
+        y = 0;
+        while (y < data->window_height)
+        {
+            my_mlx_pixel_put(data, x, y, data->color_buffer[(data->window_width * y) + x]);
+            y++;
+        }
+        x++;
+    }
+}
+
+void clear_color_buffer(t_data *data, int color)
+{
+    int i;
+
+    i = 0;
+    while (i < data->window_width * data->window_height)
+    {
+        data->color_buffer[i] = color;
+        i++;
+    }
+}
+
 void update(t_data *data) 
 {
     move_player(data);
@@ -519,6 +468,8 @@ void render(t_data *data)
 {
     mlx_clear_window(data->mlx_ptr, data->mlx_win);
     init_buffer(data);
+    clear_color_buffer(data, 0x000000);
+    render_color_buffer(data);
     render_map(data);
     render_ray(data);
     render_player(data); 
@@ -554,7 +505,7 @@ int main()
     }
     
     exit_game(&data);
-
+  
     
         
     return 0;

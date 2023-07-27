@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:44:27 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/07/23 18:59:34 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/07/26 17:27:11 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 #define TWO_PI 6.28318530
 #define TILE_SIZE 64
 #define FOV_ANGLE 60 * (PI / 180)
-#define MINI_MAP_SCALE 1
+#define MINI_MAP_SCALE 0.25
 
 #define WALK_SPEED 1
 #define TURN_SPEED 1 * (PI / 180)
@@ -53,8 +53,7 @@ enum {
 typedef enum s_bool
 {
     false,
-    true,
-    hello
+    true
 } t_bool;
 
 typedef struct s_ray
@@ -106,6 +105,7 @@ typedef struct s_data
     t_player player;
     t_buffer buffer;
     t_ray *rays;
+    uint32_t *color_buffer;
 } t_data;
 
 int map[12][20] = {
