@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:44:27 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/07/26 17:27:11 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/07/30 21:45:52 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 #define WHITE 0xFFFFFF
 #define RED 0xFF0000
 #define BLACK 0x000000
+#define GREEN 0x00EE00
 
 enum {
 	ON_KEYDOWN = 2,
