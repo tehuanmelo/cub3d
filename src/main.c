@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:47:02 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/07/30 21:50:07 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/02 21:33:17 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,14 +128,46 @@ t_ray *init_rays(t_data *data)
     return rays;
 }
 
+char **get_map()
+{
+    int fd = open("map/map.txt", O_RDONLY);
+    char *buffer = malloc(100000 * sizeof(char));
+    char character;
+    int flag;
+    int i = 0;
+
+    while ((flag = read(fd, &character, 1)) > 0)
+        buffer[i++] = character;
+    buffer[i] = 0;
+    if (flag == -1 || i == 0)
+        return free(buffer), NULL;
+
+    char **map = ft_split(buffer, '\n');
+    if (map == NULL)
+        return free(buffer), NULL;
+    free(buffer);
+    return map;
+}
+
+int get_map_rows(char **map)
+{
+    int rows = 0;
+    while (*map++)
+        rows++;
+    return rows;
+}
+
 void setup(t_data *data)
 {
     data->mlx_ptr = NULL;
     data->mlx_win = NULL;
-    data->map_num_rows = sizeof(map) / sizeof(map[0]);
-    data->map_num_cols = sizeof(map[0]) / sizeof(map[0][0]);
+    data->map = get_map();
+    data->map_num_rows = get_map_rows(data->map);
+    data->map_num_cols = ft_strlen(data->map[0]);
     data->window_width = data->map_num_cols * TILE_SIZE;
     data->window_height = data->map_num_rows * TILE_SIZE;
+    data->cealing_color = SKY;
+    data->floor_color = BROWN;
     data->is_game_running = FALSE;
     data->num_rays = data->window_width;
     data->player.x = data->window_width / 2;
@@ -169,7 +201,7 @@ int is_wall_at(t_data *data, float x, float y)
     map_grid_x = floor(x / TILE_SIZE);
     map_grid_y = floor(y / TILE_SIZE);
     
-    return map[map_grid_y][map_grid_x] == 1;
+    return data->map[map_grid_y][map_grid_x] == '1';
 }
 
 void move_player(t_data *data)
@@ -207,23 +239,23 @@ void move_player(t_data *data)
 void render_player(t_data *data)
 {
 
-    draw_rectangle(
-        data, 
-       (data->player.x - 8) * MINI_MAP_SCALE, 
-       (data->player.y - 8) * MINI_MAP_SCALE, 
-        4,
-        4,
-        RED
-        );
+    // draw_rectangle(
+    //     data, 
+    //    (data->player.x - 8) * MINI_MAP_SCALE, 
+    //    (data->player.y - 8) * MINI_MAP_SCALE, 
+    //     4,
+    //     4,
+    //     RED
+    //     );
 
-    // draw_line(
-    //     data,
-    //     data->player.x * MINI_MAP_SCALE,
-    //     data->player.y * MINI_MAP_SCALE,
-    //     (data->player.x + cos(data->player.rotation_angle) * 40) * MINI_MAP_SCALE,
-    //     (data->player.y + sin(data->player.rotation_angle) * 40) * MINI_MAP_SCALE,
-    //     WHITE
-    // );
+    draw_line(
+        data,
+        data->player.x * MINI_MAP_SCALE,
+        data->player.y * MINI_MAP_SCALE,
+        (data->player.x + cos(data->player.rotation_angle) * 40) * MINI_MAP_SCALE,
+        (data->player.y + sin(data->player.rotation_angle) * 40) * MINI_MAP_SCALE,
+        WHITE
+    );
 
 }
 
@@ -292,7 +324,7 @@ void cast_ray(t_data *data, float ray_angle, int ray_id)
             // found a wall hit
             horzWallHitX = nextHorzTouchX;
             horzWallHitY = nextHorzTouchY;
-            horzWallContent = map[(int)floor(yToCheck / TILE_SIZE)][(int)floor(xToCheck / TILE_SIZE)];
+            horzWallContent = data->map[(int)floor(yToCheck / TILE_SIZE)][(int)floor(xToCheck / TILE_SIZE)];
             foundHorzWallHit = TRUE;
             break;
         } else {
@@ -337,7 +369,7 @@ void cast_ray(t_data *data, float ray_angle, int ray_id)
             // found a wall hit
             vertWallHitX = nextVertTouchX;
             vertWallHitY = nextVertTouchY;
-            vertWallContent = map[(int)floor(yToCheck / TILE_SIZE)][(int)floor(xToCheck / TILE_SIZE)];
+            vertWallContent = data->map[(int)floor(yToCheck / TILE_SIZE)][(int)floor(xToCheck / TILE_SIZE)];
             foundVertWallHit = TRUE;
             break;
         } else {
@@ -426,7 +458,7 @@ void render_map(t_data *data)
         {
             tile_x = j * TILE_SIZE;
             tile_y = i * TILE_SIZE;
-            if (map[i][j] == 1)
+            if (data->map[i][j] == '1')
                 tile_color = GREEN;
             else
                 tile_color = BLACK;
@@ -435,6 +467,18 @@ void render_map(t_data *data)
         }
         i++;
     }
+}
+
+void generate_floor_cealing(t_data *data)
+{
+    int i;
+
+    i = 0;
+    while (i < (data->window_width * data->window_height) / 2)
+        data->color_buffer[i++] = data->cealing_color;
+    i = (data->window_width * data->window_height) / 2;
+    while ( i < (data->window_height * data->window_width))
+        data->color_buffer[i++] = data->floor_color;
 }
 
 void generate_3d_walls(t_data *data)
@@ -453,6 +497,7 @@ void generate_3d_walls(t_data *data)
         dist_projected_wall = (data->window_width / 2) / (FOV_ANGLE / 2);
         // fixing the fish eye effect
         corrected_ray_distance = data->rays[x].distance * cos(data->player.rotation_angle - data->rays[x].ray_angle);
+        
         projected_wall_height = (int)((TILE_SIZE / corrected_ray_distance * dist_projected_wall));
         top_pixel = (data->window_height / 2) - (projected_wall_height / 2);
         bottom_pixel = (data->window_height / 2) + (projected_wall_height / 2);
@@ -464,7 +509,10 @@ void generate_3d_walls(t_data *data)
         y = top_pixel;
         while (y < bottom_pixel)
         {
-            data->color_buffer[(data->window_width * y) + x] = WHITE;
+            if (data->rays[x].was_hit_vertical)
+                data->color_buffer[(data->window_width * y) + x] = SHADE;
+            else
+                data->color_buffer[(data->window_width * y) + x] = WHITE;
             y++;
         }
         x++;  
@@ -511,6 +559,7 @@ void render(t_data *data)
 {
     mlx_clear_window(data->mlx_ptr, data->mlx_win);
     init_buffer(data);
+    generate_floor_cealing(data);
     generate_3d_walls(data);
     render_color_buffer(data);
     clear_color_buffer(data, 0x000000);
@@ -554,3 +603,5 @@ int main()
         
     return 0;
 }
+
+
