@@ -25,14 +25,20 @@ int initialize_window(t_data *data) {
 
 int exit_game(t_data *data)
 {
+    int i;
+
+    free(data->rays);
+    free(data->color_buffer);
+    i = 0;
+    while (data->map[i])
+        free(data->map[i++]);
+    free(data->map);
+    i = 0;
+    while (i < 4)
+        mlx_destroy_image(data->mlx_ptr, data->textures[i++].img);
+    free(data->textures);
     mlx_destroy_window(data->mlx_ptr, data->mlx_win);
     data->mlx_ptr = NULL;
-    if (data->rays)
-        free(data->rays);
-    if (data->color_buffer)
-        free(data->color_buffer);
-    if (data->textures)
-        free(data->textures);
     exit(EXIT_SUCCESS);
 }
 
