@@ -18,9 +18,9 @@ int initialize_window(t_data *data) {
     if (!data->mlx_ptr || !data->mlx_win)
     {
         perror("Could not initialize the window");
-        return FALSE;
+        return false;
     }
-    return TRUE;
+    return true;
 }
 
 int exit_game(t_data *data)
@@ -37,7 +37,7 @@ int exit_game(t_data *data)
 int key_pressed(int keycode, t_data *data)
 {
     if (keycode == KEY_ESC)
-        data->is_game_running = FALSE;
+        data->is_game_running = false;
     else if (keycode == KEY_W || keycode == KEY_UP)
         data->player.walk_direction = 1;
     else if (keycode == KEY_S || keycode == KEY_DOWN)
@@ -188,7 +188,7 @@ void setup(t_data *data)
     data->window_height = data->map_num_rows * TILE_SIZE;
     data->cealing_color = DARK_GREY;
     data->floor_color = LIGHT_GREY;
-    data->is_game_running = FALSE;
+    data->is_game_running = false;
     data->num_rays = data->window_width;
     data->player.x = data->window_width / 2;
     data->player.y = data->window_height / 2;
@@ -216,7 +216,7 @@ int is_wall_at(t_data *data, float x, float y)
     
     // if x and y coordinates are out of boundaries returns true and do not move the player
     if ((x < 0 || x > data->window_width) || (y < 0 || y > data->window_height))
-        return TRUE;
+        return true;
     
     // divide the coordinate by the tile size to find the position in the map array.
     // round it down to get an integer value
@@ -319,7 +319,7 @@ void cast_ray(t_data *data, float ray_angle, int ray_id)
     ///////////////////////////////////////////
     // HORIZONTAL RAY-GRID INTERSECTION CODE
     ///////////////////////////////////////////
-    int foundHorzWallHit = FALSE;
+    int foundHorzWallHit = false;
     float horzWallHitX = 0;
     float horzWallHitY = 0;
     int horzWallContent = 0;
@@ -354,7 +354,7 @@ void cast_ray(t_data *data, float ray_angle, int ray_id)
             horzWallHitX = nextHorzTouchX;
             horzWallHitY = nextHorzTouchY;
             horzWallContent = data->map[(int)floor(yToCheck / TILE_SIZE)][(int)floor(xToCheck / TILE_SIZE)];
-            foundHorzWallHit = TRUE;
+            foundHorzWallHit = true;
             break;
         } else {
             nextHorzTouchX += xstep;
@@ -366,7 +366,7 @@ void cast_ray(t_data *data, float ray_angle, int ray_id)
     ///////////////////////////////////////////
     // VERTICAL RAY-GRID INTERSECTION CODE
     ///////////////////////////////////////////
-    int foundVertWallHit = FALSE;
+    int foundVertWallHit = false;
     float vertWallHitX = 0;
     float vertWallHitY = 0;
     int vertWallContent = 0;
@@ -399,7 +399,7 @@ void cast_ray(t_data *data, float ray_angle, int ray_id)
             vertWallHitX = nextVertTouchX;
             vertWallHitY = nextVertTouchY;
             vertWallContent = data->map[(int)floor(yToCheck / TILE_SIZE)][(int)floor(xToCheck / TILE_SIZE)];
-            foundVertWallHit = TRUE;
+            foundVertWallHit = true;
             break;
         } else {
             nextVertTouchX += xstep;
@@ -419,13 +419,13 @@ float horzHitDistance = foundHorzWallHit
         data->rays[ray_id].wall_hit_x = vertWallHitX;
         data->rays[ray_id].wall_hit_y = vertWallHitY;
         data->rays[ray_id].wall_hit_content = vertWallContent;
-        data->rays[ray_id].was_hit_vertical = TRUE;
+        data->rays[ray_id].was_hit_vertical = true;
     } else {
         data->rays[ray_id].distance = horzHitDistance;
         data->rays[ray_id].wall_hit_x = horzWallHitX;
         data->rays[ray_id].wall_hit_y = horzWallHitY;
         data->rays[ray_id].wall_hit_content = horzWallContent;
-        data->rays[ray_id].was_hit_vertical = FALSE;
+        data->rays[ray_id].was_hit_vertical = false;
     }
     data->rays[ray_id].ray_angle = ray_angle;
     data->rays[ray_id].is_ray_facing_down = isRayFacingDown;
@@ -620,7 +620,7 @@ int game_loop(t_data *data)
         exit_game(data);
     update(data);
     render(data);
-    return TRUE;
+    return true;
 }
 
 int main() 

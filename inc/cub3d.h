@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:44:27 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/07 23:25:48 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/08 14:39:15 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <math.h>
 #include <limits.h>
 #include <fcntl.h>
+#include <stdbool.h>
 
 #define TRUE 1
 #define FALSE 0
@@ -64,23 +65,17 @@ enum {
     
 };
 
-typedef enum s_bool
-{
-    false,
-    true
-} t_bool;
-
 typedef struct s_ray
 {
     float ray_angle;
     float wall_hit_x;
     float wall_hit_y;
     float distance;
-    t_bool was_hit_vertical;
-    t_bool is_ray_facing_up; 
-    t_bool is_ray_facing_down; 
-    t_bool is_ray_facing_right; 
-    t_bool is_ray_facing_left; 
+    bool was_hit_vertical;
+    bool is_ray_facing_up; 
+    bool is_ray_facing_down; 
+    bool is_ray_facing_right; 
+    bool is_ray_facing_left; 
     int wall_hit_content;
 } t_ray;
 
@@ -117,7 +112,7 @@ typedef struct s_data
     int num_rays;
     int floor_color;
     int cealing_color;
-    t_bool is_game_running;
+    bool is_game_running;
     t_player player;
     t_image buffer_image;
     t_image texture;
