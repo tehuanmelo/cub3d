@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:44:27 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/08 14:41:15 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/08 17:36:30 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ typedef struct s_data
     bool is_game_running;
     t_player player;
     t_image buffer_image;
-    t_image texture;
+    t_image *textures;
     t_ray *rays;
     char **map;
     int *color_buffer;

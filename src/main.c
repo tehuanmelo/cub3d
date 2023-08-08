@@ -31,6 +31,8 @@ int exit_game(t_data *data)
         free(data->rays);
     if (data->color_buffer)
         free(data->color_buffer);
+    if (data->textures)
+        free(data->textures);
     exit(EXIT_SUCCESS);
 }
 
@@ -206,6 +208,21 @@ void get_player_position(t_data *data)
     }
 }
 
+t_image *get_textures(t_data *data)
+{
+    t_image *textures;
+
+    textures = malloc(sizeof(t_image) * 4);
+    if (!textures)
+        return NULL;
+    textures[0] = create_image(data, "textures/BLUE-ROCK.xpm");
+    textures[1] = create_image(data, "textures/BROWN-ROCK.xpm");
+    textures[2] = create_image(data, "textures/SILVER-ROCK.xpm");
+    textures[3] = create_image(data, "textures/MOSS-ROCK.xpm");
+
+    return textures;
+}
+
 void setup(t_data *data)
 {
     data->mlx_ptr = mlx_init();
@@ -226,7 +243,7 @@ void setup(t_data *data)
     data->player.turn_direction = 0; 
     data->rays = malloc(data->num_rays * sizeof(t_ray));
     data->color_buffer = malloc((data->window_width * data->window_height) * sizeof(int));
-    data->texture = create_image(data, "textures/BLUE-ROCK.xpm");
+    data->textures = get_textures(data);
     get_player_position(data);
 }
 
@@ -242,7 +259,7 @@ int is_wall_at(t_data *data, float x, float y)
     int map_grid_y;
     
     // if x and y coordinates are out of boundaries returns true and do not move the player
-    if ((x < 0 || x > data->window_width) || (y < 0 || y > data->window_height))
+    if ((x < 0 || x >= data->window_width) || (y < 0 || y >= data->window_height))
         return true;
     
     // divide the coordinate by the tile size to find the position in the map array.
@@ -580,7 +597,17 @@ void generate_3d_walls(t_data *data)
             int textureOffsetY = distanceFromTop * ((float)TILE_SIZE / projected_wall_height); // 
 
             // set the color of the wall based on the color from the texture
-            int texelColor = my_mlx_pixel_get(&data->texture, textureOffsetX, textureOffsetY);
+            int orientation = 0;
+            if (!data->rays[x].was_hit_vertical && data->rays[x].is_ray_facing_up)
+                orientation = 0;
+            else if (!data->rays[x].was_hit_vertical && data->rays[x].is_ray_facing_down)
+                orientation = 1;
+            else if (data->rays[x].was_hit_vertical && data->rays[x].is_ray_facing_left)
+                orientation = 2;
+            else if (data->rays[x].was_hit_vertical && data->rays[x].is_ray_facing_right)
+                orientation = 3;
+
+            int texelColor = my_mlx_pixel_get(&data->textures[orientation], textureOffsetX, textureOffsetY);
             data->color_buffer[(data->window_width * y) + x] = texelColor;
             y++;
         }
