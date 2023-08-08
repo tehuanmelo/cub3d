@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:44:27 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/02 21:34:27 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/07 23:25:48 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include "./mlx/mlx.h"
 #include "./libft/libft.h"
+#include "textures.h"
 #include <stdio.h>
 #include <math.h>
 #include <limits.h>
@@ -29,8 +30,8 @@
 #define FOV_ANGLE 60 * (PI / 180)
 #define MINI_MAP_SCALE 0.25
 
-#define WALK_SPEED 1
-#define TURN_SPEED 1 * (PI / 180)
+#define WALK_SPEED 6
+#define TURN_SPEED 4 * (PI / 180)
 
 #define WHITE 0xFFFFFF
 #define SHADE 0xDDDDDD
@@ -39,6 +40,9 @@
 #define GREEN 0x00EE00
 #define SKY 0x0ADD8E6
 #define BROWN 0x964B00
+#define DARK_GREY 0x404040
+#define MEDIUN_GREY 0xA0A0A0
+#define LIGHT_GREY 0x808080
 
 enum {
 	ON_KEYDOWN = 2,
@@ -53,6 +57,11 @@ enum {
 	KEY_RIGHT = 124,
 	KEY_UP = 126,
 	KEY_DOWN = 125,
+    KEY_A = 0,
+    KEY_W = 13,
+    KEY_S = 1,
+    KEY_D = 2
+    
 };
 
 typedef enum s_bool
@@ -82,17 +91,20 @@ typedef struct s_player
     float width;
     float height;
     int walk_direction;
+    int side_direction;
     int turn_direction;
     float rotation_angle;
 } t_player;
 
-typedef struct s_buffer {
+typedef struct s_image {
     void *img;
     char *addr;
     int bits_per_pixel;
     int line_length;
     int endian;
-} t_buffer;
+    int width;
+    int height;
+} t_image;
 
 typedef struct s_data
 {
@@ -103,14 +115,15 @@ typedef struct s_data
     int map_num_rows;
     int map_num_cols;
     int num_rays;
-    char **map;
     int floor_color;
     int cealing_color;
     t_bool is_game_running;
     t_player player;
-    t_buffer buffer;
+    t_image buffer_image;
+    t_image texture;
     t_ray *rays;
-    uint32_t *color_buffer;
+    char **map;
+    int *color_buffer;
 } t_data;
 
 #endif

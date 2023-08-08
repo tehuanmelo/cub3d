@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -6,14 +7,13 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:47:02 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/02 21:33:17 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/05 13:34:52 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
 int initialize_window(t_data *data) {
-    data->mlx_ptr = mlx_init();
     data->mlx_win = mlx_new_window(data->mlx_ptr, data->window_width, data->window_height, "Cub3d");
     if (!data->mlx_ptr || !data->mlx_win)
     {
@@ -29,6 +29,8 @@ int exit_game(t_data *data)
     data->mlx_ptr = NULL;
     if (data->rays)
         free(data->rays);
+    if (data->color_buffer)
+        free(data->color_buffer);
     exit(EXIT_SUCCESS);
 }
 
@@ -36,10 +38,14 @@ int key_pressed(int keycode, t_data *data)
 {
     if (keycode == KEY_ESC)
         data->is_game_running = FALSE;
-    else if (keycode == KEY_UP)
+    else if (keycode == KEY_W || keycode == KEY_UP)
         data->player.walk_direction = 1;
-    else if (keycode == KEY_DOWN)
+    else if (keycode == KEY_S || keycode == KEY_DOWN)
         data->player.walk_direction = -1;
+    else if (keycode == KEY_A)
+        data->player.side_direction = 1;
+    else if (keycode == KEY_D)
+        data->player.side_direction = -1;
     else if (keycode == KEY_RIGHT)
         data->player.turn_direction = 1;
     else if (keycode == KEY_LEFT)
@@ -49,10 +55,14 @@ int key_pressed(int keycode, t_data *data)
 
 int key_released(int keycode, t_data *data)
 {
-    if (keycode == KEY_UP)
+    if (keycode == KEY_W || keycode == KEY_UP)
         data->player.walk_direction = 0;
-    else if (keycode == KEY_DOWN)
+    else if (keycode == KEY_S || keycode == KEY_DOWN)
         data->player.walk_direction = 0;
+    else if (keycode == KEY_A)
+        data->player.side_direction = 0;
+    else if (keycode == KEY_D)
+        data->player.side_direction = 0;
     else if (keycode == KEY_RIGHT)
         data->player.turn_direction = 0;
     else if (keycode == KEY_LEFT)
@@ -60,10 +70,30 @@ int key_released(int keycode, t_data *data)
     return EXIT_SUCCESS;
 }
 
-void my_mlx_pixel_put(t_data *data, int x, int y, int color)
+t_image create_image(t_data *data, char *image_path)
 {
-     char *dst;
-    dst = data->buffer.addr + (y * data->buffer.line_length + x * (data->buffer.bits_per_pixel / 8));
+    t_image img;
+    img.width = 64;
+    img.height = 64;
+    img.img = mlx_xpm_file_to_image(data->mlx_ptr, image_path, &img.width, &img.height);
+    img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
+    return (img);
+}
+
+int my_mlx_pixel_get(t_image *img, int x, int y)
+{
+    int color;
+    char *dst;
+    
+    dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+    color = *(unsigned int *)dst;
+    return color;
+}
+
+void my_mlx_pixel_put(t_image *img, int x, int y, int color)
+{
+    char *dst;
+    dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
     *(unsigned int *)dst = color;
 }
 
@@ -82,7 +112,7 @@ void draw_rectangle(t_data *data, int x, int y, int width, int height, int color
         x = starting_x;
         while (x < end_x)
         {
-            my_mlx_pixel_put(data, x, y, color);
+            my_mlx_pixel_put(&data->buffer_image, x, y, color);
             x++;
         }
         y++;
@@ -99,7 +129,7 @@ void draw_line(t_data *data, int x0, int y0, int x1, int y1, int color)
 
     while (1)
     {
-        my_mlx_pixel_put(data, x0, y0, color);
+        my_mlx_pixel_put(&data->buffer_image, x0, y0, color);
 
         if (x0 == x1 && y0 == y1)
             break;
@@ -116,16 +146,6 @@ void draw_line(t_data *data, int x0, int y0, int x1, int y1, int color)
             y0 += sy;
         }
     }
-}
-
-t_ray *init_rays(t_data *data)
-{
-    t_ray *rays;
-
-    rays = malloc(data->num_rays * sizeof(t_ray));
-    if (!rays)
-        return NULL;
-    return rays;
 }
 
 char **get_map()
@@ -159,15 +179,15 @@ int get_map_rows(char **map)
 
 void setup(t_data *data)
 {
-    data->mlx_ptr = NULL;
+    data->mlx_ptr = mlx_init();
     data->mlx_win = NULL;
     data->map = get_map();
     data->map_num_rows = get_map_rows(data->map);
     data->map_num_cols = ft_strlen(data->map[0]);
     data->window_width = data->map_num_cols * TILE_SIZE;
     data->window_height = data->map_num_rows * TILE_SIZE;
-    data->cealing_color = SKY;
-    data->floor_color = BROWN;
+    data->cealing_color = DARK_GREY;
+    data->floor_color = LIGHT_GREY;
     data->is_game_running = FALSE;
     data->num_rays = data->window_width;
     data->player.x = data->window_width / 2;
@@ -175,16 +195,18 @@ void setup(t_data *data)
     data->player.width = 10;
     data->player.height = 10;
     data->player.walk_direction = 0;
+    data->player.side_direction = 0;
     data->player.turn_direction = 0; 
     data->player.rotation_angle = PI / 2; // it will be setted by the map, in this case it is 90 degrees radians facing South
-    data->rays = init_rays(data);
-    data->color_buffer = malloc((data->window_width * data->window_height) * sizeof(uint32_t));
+    data->rays = malloc(data->num_rays * sizeof(t_ray));
+    data->color_buffer = malloc((data->window_width * data->window_height) * sizeof(int));
+    data->texture = create_image(data, "textures/BLUE-ROCK.xpm");
 }
 
-void init_buffer(t_data *data)
+void init_buffer_image(t_data *data)
 {
-    data->buffer.img = mlx_new_image(data->mlx_ptr, data->window_width, data->window_height);
-    data->buffer.addr = mlx_get_data_addr(data->buffer.img, &data->buffer.bits_per_pixel, &data->buffer.line_length, &data->buffer.endian);
+    data->buffer_image.img = mlx_new_image(data->mlx_ptr, data->window_width, data->window_height);
+    data->buffer_image.addr = mlx_get_data_addr(data->buffer_image.img, &data->buffer_image.bits_per_pixel, &data->buffer_image.line_length, &data->buffer_image.endian);
 }
 
 int is_wall_at(t_data *data, float x, float y)
@@ -192,7 +214,7 @@ int is_wall_at(t_data *data, float x, float y)
     int map_grid_x;
     int map_grid_y;
     
-    // if x and y coordinates are out of boundaries is wall return true and do not move the player
+    // if x and y coordinates are out of boundaries returns true and do not move the player
     if ((x < 0 || x > data->window_width) || (y < 0 || y > data->window_height))
         return TRUE;
     
@@ -207,6 +229,8 @@ int is_wall_at(t_data *data, float x, float y)
 void move_player(t_data *data)
 {
     float move_step;
+    float side_move_step;
+    float side_angle;
     float new_player_x;
     float new_player_y;
 
@@ -216,15 +240,20 @@ void move_player(t_data *data)
     // the distance we want to move, 1 forward or -1 backward from walk_direction
     // WALK_SPEED is the number of pixels the player will move
     move_step = data->player.walk_direction * WALK_SPEED;
+    side_move_step = data->player.side_direction * WALK_SPEED;
     
     // increment or decrement the player angle based on the turn_direction 
     // times TURN_SPEED. How many angles we want to move
     data->player.rotation_angle += data->player.turn_direction * TURN_SPEED;
+    side_angle = data->player.rotation_angle - (PI / 2);
     
     // Basic trigonometry to find the new coordinates
     // move step being the hypotenuse, new_player_x adjacent, new_player_y oposite
-    new_player_x = data->player.x + cos(data->player.rotation_angle) * move_step;
-    new_player_y = data->player.y + sin(data->player.rotation_angle) * move_step;
+    new_player_x += cos(data->player.rotation_angle) * move_step;
+    new_player_y += sin(data->player.rotation_angle) * move_step;
+
+    new_player_x += cos(side_angle) * side_move_step;
+    new_player_y += sin(side_angle) * side_move_step;
     
     // check if there is a wall in the new coordinates
     if (!is_wall_at(data, new_player_x, new_player_y))
@@ -459,7 +488,7 @@ void render_map(t_data *data)
             tile_x = j * TILE_SIZE;
             tile_y = i * TILE_SIZE;
             if (data->map[i][j] == '1')
-                tile_color = GREEN;
+                tile_color = WHITE;
             else
                 tile_color = BLACK;
             draw_rectangle(data, tile_x * MINI_MAP_SCALE, tile_y * MINI_MAP_SCALE, TILE_SIZE * MINI_MAP_SCALE, TILE_SIZE * MINI_MAP_SCALE, tile_color);
@@ -506,16 +535,30 @@ void generate_3d_walls(t_data *data)
             top_pixel = 0;
         if (bottom_pixel > data->window_height)
             bottom_pixel = data->window_height;
+        
+        int textureOffsetX;
+        if (data->rays[x].was_hit_vertical)
+            textureOffsetX = (int)data->rays[x].wall_hit_y % TILE_SIZE;
+        else
+            textureOffsetX = (int)data->rays[x].wall_hit_x % TILE_SIZE;
+
+        // get the correct texture id number from the map content
+        // int texNum = data->rays[x].wallHitContent - 1;
+
+        // render the wall from wallTopPixel to wallBottomPixel
         y = top_pixel;
-        while (y < bottom_pixel)
+        while (y < bottom_pixel) 
         {
-            if (data->rays[x].was_hit_vertical)
-                data->color_buffer[(data->window_width * y) + x] = SHADE;
-            else
-                data->color_buffer[(data->window_width * y) + x] = WHITE;
+            int distanceFromTop = y + (projected_wall_height / 2) - (data->window_height / 2); // allows the top pixel be negative and prevent distortion
+            int textureOffsetY = distanceFromTop * ((float)TILE_SIZE / projected_wall_height); // 
+
+            // set the color of the wall based on the color from the texture
+            int texelColor = my_mlx_pixel_get(&data->texture, textureOffsetX, textureOffsetY);
+            data->color_buffer[(data->window_width * y) + x] = texelColor;
             y++;
         }
-        x++;  
+            
+        x++;
     }
 }
 
@@ -530,7 +573,7 @@ void render_color_buffer(t_data *data)
         y = 0;
         while (y < data->window_height)
         {
-            my_mlx_pixel_put(data, x, y, data->color_buffer[(data->window_width * y) + x]);
+            my_mlx_pixel_put(&data->buffer_image, x, y, data->color_buffer[(data->window_width * y) + x]);
             y++;
         }
         x++;
@@ -558,7 +601,7 @@ void update(t_data *data)
 void render(t_data *data)
 {
     mlx_clear_window(data->mlx_ptr, data->mlx_win);
-    init_buffer(data);
+    init_buffer_image(data);
     generate_floor_cealing(data);
     generate_3d_walls(data);
     render_color_buffer(data);
@@ -566,9 +609,9 @@ void render(t_data *data)
     render_map(data);
     render_ray(data);
     render_player(data); 
-    mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->buffer.img, 0, 0);
-    if (data->buffer.img)
-        mlx_destroy_image(data->mlx_ptr, data->buffer.img);
+    mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->buffer_image.img, 0, 0);
+    if (data->buffer_image.img)
+        mlx_destroy_image(data->mlx_ptr, data->buffer_image.img);
 }
 
 int game_loop(t_data *data)
@@ -605,3 +648,70 @@ int main()
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// t_image create_image(void *mlx_ptr, char *image_path)
+// {
+//     t_image img;
+//     img.width = 64;
+//     img.height = 64;
+//     img.img = mlx_xpm_file_to_image(mlx_ptr, image_path, &img.width, &img.height);
+//     img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
+//     return (img);
+// }
+
+// int my_mlx_pixel_get(t_image *img, int x, int y)
+// {
+//     int color;
+//     char *dst;
+    
+//     dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+//     color = *(unsigned int *)dst;
+//     return color;
+// }
+
+// void my_mlx_pixel_put(t_image *img, int x, int y, int color)
+// {
+//     char *dst;
+//     dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+//     *(unsigned int *)dst = color;
+// }
+
+// int main()
+// {
+    // void *mlx = mlx_init();
+    // int width = 64;
+    // int height = 64;
+    // void *win = mlx_new_window(mlx, width * 20, height * 10, "new window");
+
+    // t_image buffer;
+    // buffer.img = mlx_new_image(mlx, width * 20, height * 10);
+    // buffer.addr = mlx_get_data_addr(buffer.img, &buffer.bits_per_pixel, &buffer.line_length, &buffer.endian);
+
+
+    // t_image texture = create_image(mlx, "textures/RED-BRICK.xpm");
+    // (void)texture;
+
+    // int texel;
+    // for (int x = 0; x < 64; x++)
+    //     for (int y = 0; y < 64; y++)
+    //     {
+    //         texel = my_mlx_pixel_get(&texture, x, y);
+    //         my_mlx_pixel_put(&buffer, x, y, texel);
+    //     }
+
+    // mlx_put_image_to_window(mlx, win, buffer.img, 0, 0);
+    // mlx_loop(mlx);
+// }
