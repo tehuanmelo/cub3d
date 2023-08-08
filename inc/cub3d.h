@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:44:27 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/08 14:39:15 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/08 14:41:15 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@
 #include <limits.h>
 #include <fcntl.h>
 #include <stdbool.h>
-
-#define TRUE 1
-#define FALSE 0
 
 #define PI 3.14159265
 #define TWO_PI 6.28318530

@@ -150,7 +150,7 @@ void draw_line(t_data *data, int x0, int y0, int x1, int y1, int color)
 
 char **get_map()
 {
-    int fd = open("map/map.txt", O_RDONLY);
+    int fd = open("map/map.cub", O_RDONLY);
     char *buffer = malloc(100000 * sizeof(char));
     char character;
     int flag;
@@ -177,6 +177,35 @@ int get_map_rows(char **map)
     return rows;
 }
 
+void get_player_position(t_data *data)
+{
+    int i;
+    int j;
+
+    i = -1;
+    while (data->map[++i])
+    {
+        j = -1;
+        while (data->map[i][++j])
+        {
+            if (data->map[i][j] != '0' && data->map[i][j] != '1')
+            {
+                if (data->map[i][j] == 'N')
+                    data->player.rotation_angle = 0.75 * (2 * PI);
+                else if (data->map[i][j] == 'S')
+                    data->player.rotation_angle = 0.25 * (2 * PI);
+                else if (data->map[i][j] == 'E')
+                    data->player.rotation_angle = 2 * (2 * PI);
+                else if (data->map[i][j] == 'W')
+                    data->player.rotation_angle = 0.5 * (2 * PI);
+                data->player.x = j * TILE_SIZE;
+                data->player.y = i * TILE_SIZE;
+                return;
+            }
+        }
+    }
+}
+
 void setup(t_data *data)
 {
     data->mlx_ptr = mlx_init();
@@ -190,17 +219,15 @@ void setup(t_data *data)
     data->floor_color = LIGHT_GREY;
     data->is_game_running = false;
     data->num_rays = data->window_width;
-    data->player.x = data->window_width / 2;
-    data->player.y = data->window_height / 2;
     data->player.width = 10;
     data->player.height = 10;
     data->player.walk_direction = 0;
     data->player.side_direction = 0;
     data->player.turn_direction = 0; 
-    data->player.rotation_angle = PI / 2; // it will be setted by the map, in this case it is 90 degrees radians facing South
     data->rays = malloc(data->num_rays * sizeof(t_ray));
     data->color_buffer = malloc((data->window_width * data->window_height) * sizeof(int));
     data->texture = create_image(data, "textures/BLUE-ROCK.xpm");
+    get_player_position(data);
 }
 
 void init_buffer_image(t_data *data)
