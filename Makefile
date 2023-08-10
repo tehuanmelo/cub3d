@@ -11,7 +11,7 @@ OBJDIR = ./obj/
 SRCDIR = ./src/
 
 # source files
-SRCFILES = main.c
+SRCFILES = main.c graphics.c
 # object files
 OBJFILES = $(SRCFILES:.c=.o)
 

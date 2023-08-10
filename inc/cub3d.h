@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:44:27 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/10 15:44:17 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/10 17:09:19 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,5 +116,15 @@ typedef struct s_data
     char **map;
     int *color_buffer;
 } t_data;
+
+// GRAPHICS.C
+int initialize_window(t_data *data);
+void clear_color_buffer(t_data *data, int color);
+void render_color_buffer(t_data *data);
+int my_mlx_pixel_get(t_image *img, int x, int y);
+void my_mlx_pixel_put(t_image *img, int x, int y, int color);
+void draw_pixel(t_data *data, int x, int y, int color);
+void init_buffer_image(t_data *data);
+void draw_rect (t_data *data, int x, int y, int width, int height, int color);
 
 #endif
