@@ -23,7 +23,7 @@ int initialize_window(t_data *data) {
     return true;
 }
 
-int exit_game(t_data *data)
+int release_resources(t_data *data)
 {
     int i;
 
@@ -592,9 +592,6 @@ void generate_3d_walls(t_data *data)
         else
             textureOffsetX = (int)data->rays[x].wall_hit_x % TILE_SIZE;
 
-        // get the correct texture id number from the map content
-        // int texNum = data->rays[x].wallHitContent - 1;
-
         // render the wall from wallTopPixel to wallBottomPixel
         y = top_pixel;
         while (y < bottom_pixel) 
@@ -605,11 +602,11 @@ void generate_3d_walls(t_data *data)
             // set the color of the wall based on the color from the texture
             int orientation = 0;
             if (!data->rays[x].was_hit_vertical && data->rays[x].is_ray_facing_up)
-                orientation = 0;
-            else if (!data->rays[x].was_hit_vertical && data->rays[x].is_ray_facing_down)
-                orientation = 1;
-            else if (data->rays[x].was_hit_vertical && data->rays[x].is_ray_facing_left)
                 orientation = 2;
+            else if (!data->rays[x].was_hit_vertical && data->rays[x].is_ray_facing_down)
+                orientation = 2;
+            else if (data->rays[x].was_hit_vertical && data->rays[x].is_ray_facing_left)
+                orientation = 3;
             else if (data->rays[x].was_hit_vertical && data->rays[x].is_ray_facing_right)
                 orientation = 3;
 
@@ -677,7 +674,7 @@ void render(t_data *data)
 int game_loop(t_data *data)
 {
     if (!data->is_game_running)
-        exit_game(data);
+        release_resources(data);
     update(data);
     render(data);
     return true;
@@ -696,11 +693,11 @@ int main()
         mlx_loop_hook(data.mlx_ptr, game_loop, &data);
         mlx_hook(data.mlx_win, 2, 1L << 0, key_pressed, &data);
 	    mlx_hook(data.mlx_win, 3, 1L << 0, key_released, &data);
-        mlx_hook(data.mlx_win, ON_DESTROY, 1L << 17, exit_game, &data);
+        mlx_hook(data.mlx_win, ON_DESTROY, 1L << 17, release_resources, &data);
         mlx_loop(data.mlx_ptr);
     }
     
-    exit_game(&data);
+    release_resources(&data);
   
     
         

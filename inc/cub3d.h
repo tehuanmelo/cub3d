@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:44:27 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/08 17:36:30 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/10 15:44:17 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 #include "./mlx/mlx.h"
 #include "./libft/libft.h"
-#include "textures.h"
 #include <stdio.h>
 #include <math.h>
 #include <limits.h>
@@ -28,8 +27,8 @@
 #define FOV_ANGLE 60 * (PI / 180)
 #define MINI_MAP_SCALE 0.25
 
-#define WALK_SPEED 6
-#define TURN_SPEED 4 * (PI / 180)
+#define WALK_SPEED 8
+#define TURN_SPEED 6 * (PI / 180)
 
 #define WHITE 0xFFFFFF
 #define SHADE 0xDDDDDD
