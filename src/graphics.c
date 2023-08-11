@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 15:58:50 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/11 20:13:15 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/12 00:52:52 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,7 @@ void clear_color_buffer(t_data *data, int color)
     }
 }
 
-void draw_pixel(t_data *data, int x, int y, int color)
-{
-    data->color_buffer[(data->window_width * y) + x] = color;
-}
+
 
 void init_buffer_image(t_data *data)
 {
@@ -46,52 +43,6 @@ void init_buffer_image(t_data *data)
     data->buffer_image.addr = mlx_get_data_addr(data->buffer_image.img, &data->buffer_image.bits_per_pixel, &data->buffer_image.line_length, &data->buffer_image.endian);
 }
 
-void draw_rect (t_data *data, int x, int y, int width, int height, int color)
-{
-    int i;
-    int j;
-    
-    i = x;
-    while (i < x + width)
-    {
-        j = y;
-        while (j < y + height)
-        {
-            draw_pixel(data, i, j, color);
-            j++;
-        }
-        i++;
-    }
-}
-
-void draw_line(t_data *data, int x0, int y0, int x1, int y1, int color)
-{
-    int dx = abs(x1 - x0);
-    int dy = abs(y1 - y0);
-    int sx = (x0 < x1) ? 1 : -1;
-    int sy = (y0 < y1) ? 1 : -1;
-    int err = dx - dy;
-
-    while (1)
-    {
-        my_mlx_pixel_put(&data->buffer_image, x0, y0, color);
-
-        if (x0 == x1 && y0 == y1)
-            break;
-
-        int e2 = 2 * err;
-        if (e2 > -dy)
-        {
-            err -= dy;
-            x0 += sx;
-        }
-        if (e2 < dx)
-        {
-            err += dx;
-            y0 += sy;
-        }
-    }
-}
 
 void render_color_buffer(t_data *data)
 {

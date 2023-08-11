@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:44:27 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/11 20:12:36 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/12 00:56:51 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,10 +121,12 @@ typedef struct s_data
 int initialize_window(t_data *data);
 void clear_color_buffer(t_data *data, int color);
 void render_color_buffer(t_data *data);
+void init_buffer_image(t_data *data);
+
+// draw.c
 void draw_pixel(t_data *data, int x, int y, int color);
 void draw_rect (t_data *data, int x, int y, int width, int height, int color);
 void draw_line(t_data *data, int x0, int y0, int x1, int y1, int color);
-void init_buffer_image(t_data *data);
 
 // map.c
 void render_map(t_data *data);
@@ -136,5 +138,30 @@ bool is_inside_map(t_data *data, float x, float y);
 // my_mlx.c
 int my_mlx_pixel_get(t_image *img, int x, int y);
 void my_mlx_pixel_put(t_image *img, int x, int y, int color);
+t_image create_image(t_data *data, char *image_path);
+
+// rays.c
+float clean_angle(float angle);
+float get_hit_distance(float x0, float y0, float x1, float y1);
+void cast_ray(t_data *data, float ray_angle, int ray_id);
+void cast_all_rays(t_data *data);
+void render_ray(t_data *data);
+
+// player.c
+void get_player_position(t_data *data);
+void move_player(t_data *data);
+void render_player(t_data *data);
+
+//input.c
+int key_pressed(int keycode, t_data *data);
+int key_released(int keycode, t_data *data);
+
+// walls.c
+t_image *get_textures(t_data *data);
+void render_walls(t_data *data);
+
+// release.c
+int release_resources(t_data *data);
+
 
 #endif
