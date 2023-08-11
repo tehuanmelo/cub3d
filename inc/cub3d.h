@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:44:27 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/10 17:09:19 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/11 20:12:36 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,14 +117,24 @@ typedef struct s_data
     int *color_buffer;
 } t_data;
 
-// GRAPHICS.C
+// graphics.c
 int initialize_window(t_data *data);
 void clear_color_buffer(t_data *data, int color);
 void render_color_buffer(t_data *data);
+void draw_pixel(t_data *data, int x, int y, int color);
+void draw_rect (t_data *data, int x, int y, int width, int height, int color);
+void draw_line(t_data *data, int x0, int y0, int x1, int y1, int color);
+void init_buffer_image(t_data *data);
+
+// map.c
+void render_map(t_data *data);
+char **get_map(void);
+int get_map_rows(char **map);
+bool is_wall_at(t_data *data, float x, float y);
+bool is_inside_map(t_data *data, float x, float y);
+
+// my_mlx.c
 int my_mlx_pixel_get(t_image *img, int x, int y);
 void my_mlx_pixel_put(t_image *img, int x, int y, int color);
-void draw_pixel(t_data *data, int x, int y, int color);
-void init_buffer_image(t_data *data);
-void draw_rect (t_data *data, int x, int y, int width, int height, int color);
 
 #endif

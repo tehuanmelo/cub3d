@@ -1,4 +1,3 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -7,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:47:02 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/05 13:34:52 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/11 20:10:03 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,86 +77,6 @@ t_image create_image(t_data *data, char *image_path)
     return (img);
 }
 
-void draw_rectangle(t_data *data, int x, int y, int width, int height, int color)
-{
-    int end_x;
-    int end_y;
-    int starting_x;
-
-    end_x = x + width;
-    end_y = y + height;
-    starting_x = x;
-
-    while (y < end_y)
-    {
-        x = starting_x;
-        while (x < end_x)
-        {
-            my_mlx_pixel_put(&data->buffer_image, x, y, color);
-            x++;
-        }
-        y++;
-    }
-}
-
-void draw_line(t_data *data, int x0, int y0, int x1, int y1, int color)
-{
-    int dx = abs(x1 - x0);
-    int dy = abs(y1 - y0);
-    int sx = (x0 < x1) ? 1 : -1;
-    int sy = (y0 < y1) ? 1 : -1;
-    int err = dx - dy;
-
-    while (1)
-    {
-        my_mlx_pixel_put(&data->buffer_image, x0, y0, color);
-
-        if (x0 == x1 && y0 == y1)
-            break;
-
-        int e2 = 2 * err;
-        if (e2 > -dy)
-        {
-            err -= dy;
-            x0 += sx;
-        }
-        if (e2 < dx)
-        {
-            err += dx;
-            y0 += sy;
-        }
-    }
-}
-
-char **get_map()
-{
-    int fd = open("map/map.cub", O_RDONLY);
-    char *buffer = malloc(100000 * sizeof(char));
-    char character;
-    int flag;
-    int i = 0;
-
-    while ((flag = read(fd, &character, 1)) > 0)
-        buffer[i++] = character;
-    buffer[i] = 0;
-    if (flag == -1 || i == 0)
-        return free(buffer), NULL;
-
-    char **map = ft_split(buffer, '\n');
-    if (map == NULL)
-        return free(buffer), NULL;
-    free(buffer);
-    return map;
-}
-
-int get_map_rows(char **map)
-{
-    int rows = 0;
-    while (*map++)
-        rows++;
-    return rows;
-}
-
 void get_player_position(t_data *data)
 {
     int i;
@@ -226,22 +145,7 @@ void setup(t_data *data)
     get_player_position(data);
 }
 
-int is_wall_at(t_data *data, float x, float y)
-{
-    int map_grid_x;
-    int map_grid_y;
 
-    // if x and y coordinates are out of boundaries returns true and do not move the player
-    if ((x < 0 || x >= data->window_width) || (y < 0 || y >= data->window_height))
-        return true;
-
-    // divide the coordinate by the tile size to find the position in the map array.
-    // round it down to get an integer value
-    map_grid_x = floor(x / TILE_SIZE);
-    map_grid_y = floor(y / TILE_SIZE);
-
-    return data->map[map_grid_y][map_grid_x] == '1';
-}
 
 void move_player(t_data *data)
 {
@@ -335,7 +239,7 @@ void cast_ray(t_data *data, float ray_angle, int ray_id)
     float nextHorzTouchY = yintercept;
 
     // Increment xstep and ystep until we find a wall
-    while (nextHorzTouchX >= 0 && nextHorzTouchX <= data->window_width && nextHorzTouchY >= 0 && nextHorzTouchY <= data->window_height)
+    while (is_inside_map(data, nextHorzTouchX, nextHorzTouchY))
     {
         float xToCheck = nextHorzTouchX;
         float yToCheck = nextHorzTouchY;
@@ -347,6 +251,7 @@ void cast_ray(t_data *data, float ray_angle, int ray_id)
             // found a wall hit
             horzWallHitX = nextHorzTouchX;
             horzWallHitY = nextHorzTouchY;
+            // not using horzWallContent maybe can delete it
             horzWallContent = data->map[(int)floor(yToCheck / TILE_SIZE)][(int)floor(xToCheck / TILE_SIZE)];
             foundHorzWallHit = true;
             break;
@@ -385,7 +290,7 @@ void cast_ray(t_data *data, float ray_angle, int ray_id)
     float nextVertTouchY = yintercept;
 
     // Increment xstep and ystep until we find a wall
-    while (nextVertTouchX >= 0 && nextVertTouchX <= data->window_width && nextVertTouchY >= 0 && nextVertTouchY <= data->window_height)
+    while (is_inside_map(data, nextVertTouchX, nextVertTouchY))
     {
         float xToCheck = nextVertTouchX + (isRayFacingLeft ? -1 : 0);
         float yToCheck = nextVertTouchY;
@@ -395,6 +300,7 @@ void cast_ray(t_data *data, float ray_angle, int ray_id)
             // found a wall hit
             vertWallHitX = nextVertTouchX;
             vertWallHitY = nextVertTouchY;
+            // not using vertWallContent maybe can delete it
             vertWallContent = data->map[(int)floor(yToCheck / TILE_SIZE)][(int)floor(xToCheck / TILE_SIZE)];
             foundVertWallHit = true;
             break;
@@ -418,6 +324,7 @@ void cast_ray(t_data *data, float ray_angle, int ray_id)
         data->rays[ray_id].distance = vertHitDistance;
         data->rays[ray_id].wall_hit_x = vertWallHitX;
         data->rays[ray_id].wall_hit_y = vertWallHitY;
+        // not using wall_hit_content maybe can delete it
         data->rays[ray_id].wall_hit_content = vertWallContent;
         data->rays[ray_id].was_hit_vertical = true;
     }
@@ -426,6 +333,7 @@ void cast_ray(t_data *data, float ray_angle, int ray_id)
         data->rays[ray_id].distance = horzHitDistance;
         data->rays[ray_id].wall_hit_x = horzWallHitX;
         data->rays[ray_id].wall_hit_y = horzWallHitY;
+        // not using wall_hit_content maybe can delete it
         data->rays[ray_id].wall_hit_content = horzWallContent;
         data->rays[ray_id].was_hit_vertical = false;
     }
@@ -457,7 +365,7 @@ void cast_all_rays(t_data *data)
 void render_player(t_data *data)
 {
 
-    // draw_rectangle(
+    // draw_rect(
     //     data,
     //    (data->player.x - 8) * MINI_MAP_SCALE,
     //    (data->player.y - 8) * MINI_MAP_SCALE,
@@ -493,32 +401,6 @@ void render_ray(t_data *data)
     }
 }
 
-void render_map(t_data *data)
-{
-    int tile_x;
-    int tile_y;
-    int tile_color;
-    int i;
-    int j;
-
-    i = 0;
-    while (i < data->map_num_rows)
-    {
-        j = 0;
-        while (j < data->map_num_cols)
-        {
-            tile_x = j * TILE_SIZE;
-            tile_y = i * TILE_SIZE;
-            if (data->map[i][j] == '1')
-                tile_color = WHITE;
-            else
-                tile_color = BLACK;
-            draw_rectangle(data, tile_x * MINI_MAP_SCALE, tile_y * MINI_MAP_SCALE, TILE_SIZE * MINI_MAP_SCALE, TILE_SIZE * MINI_MAP_SCALE, tile_color);
-            j++;
-        }
-        i++;
-    }
-}
 
 void generate_floor_cealing(t_data *data)
 {
@@ -611,6 +493,7 @@ void render(t_data *data)
 {
     mlx_clear_window(data->mlx_ptr, data->mlx_win);
     render_walls(data);
+    render_map(data);
     render_color_buffer(data);
 }
 

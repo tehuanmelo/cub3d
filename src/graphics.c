@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 15:58:50 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/10 17:14:43 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/11 20:13:15 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,6 @@ void clear_color_buffer(t_data *data, int color)
         data->color_buffer[i] = color;
         i++;
     }
-}
-
-int my_mlx_pixel_get(t_image *img, int x, int y)
-{
-    int color;
-    char *dst;
-
-    dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-    color = *(unsigned int *)dst;
-    return color;
-}
-
-void my_mlx_pixel_put(t_image *img, int x, int y, int color)
-{
-    char *dst;
-    dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-    *(unsigned int *)dst = color;
 }
 
 void draw_pixel(t_data *data, int x, int y, int color)
@@ -81,13 +64,41 @@ void draw_rect (t_data *data, int x, int y, int width, int height, int color)
     }
 }
 
+void draw_line(t_data *data, int x0, int y0, int x1, int y1, int color)
+{
+    int dx = abs(x1 - x0);
+    int dy = abs(y1 - y0);
+    int sx = (x0 < x1) ? 1 : -1;
+    int sy = (y0 < y1) ? 1 : -1;
+    int err = dx - dy;
+
+    while (1)
+    {
+        my_mlx_pixel_put(&data->buffer_image, x0, y0, color);
+
+        if (x0 == x1 && y0 == y1)
+            break;
+
+        int e2 = 2 * err;
+        if (e2 > -dy)
+        {
+            err -= dy;
+            x0 += sx;
+        }
+        if (e2 < dx)
+        {
+            err += dx;
+            y0 += sy;
+        }
+    }
+}
+
 void render_color_buffer(t_data *data)
 {
     int x;
     int y;
 
     init_buffer_image(data);
-    draw_rect(data, 0, 0, 10, 50, RED);
     x = 0;
     while (x < data->window_width)
     {
