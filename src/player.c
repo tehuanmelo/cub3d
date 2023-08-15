@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 00:31:03 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/12 00:32:41 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/15 15:26:02 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,20 +81,12 @@ void move_player(t_data *data)
 void render_player(t_data *data)
 {
 
-    // draw_rect(
-    //     data,
-    //    (data->player.x - 8) * MINI_MAP_SCALE,
-    //    (data->player.y - 8) * MINI_MAP_SCALE,
-    //     4,
-    //     4,
-    //     RED
-    //     );
-
-    draw_line(
+    draw_rect(
         data,
-        data->player.x * MINI_MAP_SCALE,
-        data->player.y * MINI_MAP_SCALE,
-        (data->player.x + cos(data->player.rotation_angle) * 40) * MINI_MAP_SCALE,
-        (data->player.y + sin(data->player.rotation_angle) * 40) * MINI_MAP_SCALE,
-        WHITE);
+       (data->player.x - 8) * MINI_MAP_SCALE,
+       (data->player.y - 8) * MINI_MAP_SCALE,
+        6,
+        6,
+        RED
+        );
 }

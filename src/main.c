@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:47:02 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/12 00:55:08 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/15 16:31:19 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void render(t_data *data)
     mlx_clear_window(data->mlx_ptr, data->mlx_win);
     render_walls(data);
     render_map(data);
+    render_player(data);
+    render_ray(data);
     render_color_buffer(data);
 }
 
