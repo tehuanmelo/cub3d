@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:47:02 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/18 16:45:32 by tde-melo         ###   ########.fr       */
+/*   Updated: 2023/08/18 20:32:01 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void setup(t_data *data)
 {
+    data->mlx_ptr = mlx_init();
+    
     // **********   PARSING  *************
     data->map = get_map();
     data->cealing_color = DARK_GREY;
@@ -21,7 +23,6 @@ void setup(t_data *data)
     data->textures = get_textures(data);
 
     
-    data->mlx_ptr = mlx_init();
     data->mlx_win = NULL;
     data->map_num_rows = get_map_rows(data->map);
     data->map_num_cols = ft_strlen(data->map[0]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:44:27 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/18 15:53:43 by tde-melo         ###   ########.fr       */
+/*   Updated: 2023/08/18 21:58:49 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,19 @@ enum {
     KEY_S = 1,
     KEY_D = 2
 };
+
+typedef struct s_wall
+{
+    float projected_wall_dist;
+    float corrected_ray_distance;
+    int projected_wall_height;
+    int top_pixel;
+    int bottom_pixel;
+    int x_texture_offset;
+    int y_texture_offset;
+    int distance_from_top;
+    int orientation;
+} t_wall;
 
 typedef struct s_ray_direction
 {
@@ -124,6 +137,7 @@ typedef struct s_data
     t_player player;
     t_image buffer_image;
     t_image *textures;
+    t_image texture;
     t_ray *rays;
     char **map;
     int *color_buffer;
