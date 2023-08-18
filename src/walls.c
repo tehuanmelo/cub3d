@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   walls.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
+/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:47:02 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/18 09:56:02 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/18 15:25:44 by tde-melo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void render_walls(t_data *data)
     x = 0;
     while (x < data->num_rays)
     {
-        dist_projected_wall = (data->window_width / 2) / (FOV_ANGLE / 2);
+        dist_projected_wall = (data->window_width / 2) / tan(FOV_ANGLE / 2);
         // fixing the fish eye effect
         corrected_ray_distance = data->rays[x].distance * cos(data->player.rotation_angle - data->rays[x].ray_angle);
 
@@ -73,13 +73,13 @@ void render_walls(t_data *data)
 
             // set the color of the wall based on the color from the texture
             int orientation = 0;
-            if (!data->rays[x].was_hit_vertical && data->rays[x].is_ray_facing_up)
+            if (!data->rays[x].was_hit_vertical && data->rays[x].direction.is_ray_facing_up)
                 orientation = 0;
-            else if (!data->rays[x].was_hit_vertical && data->rays[x].is_ray_facing_down)
+            else if (!data->rays[x].was_hit_vertical && data->rays[x].direction.is_ray_facing_down)
                 orientation = 1;
-            else if (data->rays[x].was_hit_vertical && data->rays[x].is_ray_facing_left)
+            else if (data->rays[x].was_hit_vertical && data->rays[x].direction.is_ray_facing_left)
                 orientation = 2;
-            else if (data->rays[x].was_hit_vertical && data->rays[x].is_ray_facing_right)
+            else if (data->rays[x].was_hit_vertical && data->rays[x].direction.is_ray_facing_right)
                 orientation = 3;
 
             int texelColor = my_mlx_pixel_get(&data->textures[orientation], textureOffsetX, textureOffsetY);

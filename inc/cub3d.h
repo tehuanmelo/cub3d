@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
+/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:44:27 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/15 16:46:43 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/18 14:54:58 by tde-melo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 #define FOV_ANGLE 60 * (PI / 180)
 #define MINI_MAP_SCALE 0.25
 
-#define WALK_SPEED 8
+#define WALK_SPEED 10
 #define TURN_SPEED 6 * (PI / 180)
 
 #define WHITE 0xFFFFFF
@@ -54,6 +54,29 @@ enum {
     KEY_D = 2
 };
 
+typedef struct s_ray_direction
+{
+    bool is_ray_facing_up; 
+    bool is_ray_facing_down; 
+    bool is_ray_facing_right; 
+    bool is_ray_facing_left; 
+} t_ray_direction;
+
+typedef struct s_colision
+{
+    float x_intercept;
+    float y_intercept;
+    float next_x_intercept;
+    float next_y_intercept;
+    float x_step;
+    float y_step;
+    int found_wall_hit;
+    float wall_hit_x;
+    float wall_hit_y;
+    float hit_distance;
+    bool is_horizontal;
+} t_colision;
+
 typedef struct s_ray
 {
     float ray_angle;
@@ -61,11 +84,7 @@ typedef struct s_ray
     float wall_hit_y;
     float distance;
     bool was_hit_vertical;
-    bool is_ray_facing_up; 
-    bool is_ray_facing_down; 
-    bool is_ray_facing_right; 
-    bool is_ray_facing_left; 
-    int wall_hit_content;
+    t_ray_direction direction;
 } t_ray;
 
 typedef struct s_player 
@@ -139,6 +158,13 @@ float get_hit_distance(float x0, float y0, float x1, float y1);
 void cast_ray(t_data *data, float ray_angle, int ray_id);
 void cast_all_rays(t_data *data);
 void render_ray(t_data *data);
+t_ray_direction get_ray_direction(float ray_angle);
+void find_colision(t_data *data, t_colision *colision, bool direction);
+void init_colision(t_colision *colision, bool is_horizontal);
+t_colision get_horizontal_colision(t_data *data, t_ray_direction ray_direction, float ray_angle);
+t_colision get_vertical_colision(t_data *data, t_ray_direction ray_direction, float ray_angle);
+
+
 
 // player.c
 void get_player_position(t_data *data);
