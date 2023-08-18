@@ -6,7 +6,7 @@
 /*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:44:27 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/18 15:36:43 by tde-melo         ###   ########.fr       */
+/*   Updated: 2023/08/18 15:53:43 by tde-melo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,10 +120,6 @@ typedef struct s_data
     int num_rays;
     int floor_color;
     int cealing_color;
-    char *north_texture;
-    char *south_texture;
-    char *east_texture;
-    char *west_texture;
     bool is_game_running;
     t_player player;
     t_image buffer_image;
