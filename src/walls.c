@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:47:02 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/18 21:59:34 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/18 22:23:02 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,13 @@ void draw_wall(t_data *data, t_wall wall, int x)
         wall.distance_from_top = y + (wall.projected_wall_height / 2) - (data->window_height / 2); // allows the top pixel be negative and prevent distortion
         wall.y_texture_offset = wall.distance_from_top * ((float)TILE_SIZE / wall.projected_wall_height); //
         if (!data->rays[x].was_hit_vertical && data->rays[x].direction.is_ray_facing_up)
-            wall.orientation = 0;
-        else if (!data->rays[x].was_hit_vertical && data->rays[x].direction.is_ray_facing_down)
             wall.orientation = 1;
+        else if (!data->rays[x].was_hit_vertical && data->rays[x].direction.is_ray_facing_down)
+            wall.orientation = 0;
         else if (data->rays[x].was_hit_vertical && data->rays[x].direction.is_ray_facing_left)
-            wall.orientation = 2;
-        else if (data->rays[x].was_hit_vertical && data->rays[x].direction.is_ray_facing_right)
             wall.orientation = 3;
+        else if (data->rays[x].was_hit_vertical && data->rays[x].direction.is_ray_facing_right)
+            wall.orientation = 2;
         int texelColor = my_mlx_pixel_get(&data->textures[wall.orientation], wall.x_texture_offset, wall.y_texture_offset);
         draw_pixel(data, x, y, texelColor);
         y++;

@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:44:27 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/18 21:58:49 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/18 22:20:08 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,6 @@ typedef struct s_wall
     int orientation;
 } t_wall;
 
-typedef struct s_ray_direction
-{
-    bool is_ray_facing_up; 
-    bool is_ray_facing_down; 
-    bool is_ray_facing_right; 
-    bool is_ray_facing_left; 
-} t_ray_direction;
-
 typedef struct s_colision
 {
     float x_intercept;
@@ -89,6 +81,14 @@ typedef struct s_colision
     float hit_distance;
     bool is_horizontal;
 } t_colision;
+
+typedef struct s_ray_direction
+{
+    bool is_ray_facing_up; 
+    bool is_ray_facing_down; 
+    bool is_ray_facing_right; 
+    bool is_ray_facing_left; 
+} t_ray_direction;
 
 typedef struct s_ray
 {
