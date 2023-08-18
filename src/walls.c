@@ -6,7 +6,7 @@
 /*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:47:02 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/18 15:25:44 by tde-melo         ###   ########.fr       */
+/*   Updated: 2023/08/18 15:42:10 by tde-melo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,18 @@ t_image *get_textures(t_data *data)
 {
     t_image *textures;
 
+    data->north_texture = "textures/BLUE-ROCK.xpm";
+    data->south_texture = "textures/MOSS-ROCK.xpm";
+    data->east_texture = "textures/BROWN-ROCK.xpm";
+    data->west_texture = "textures/SILVER-ROCK.xpm";
+    
     textures = malloc(sizeof(t_image) * 4);
     if (!textures)
         return NULL;
-    textures[0] = create_image(data, "textures/BLUE-ROCK.xpm");
-    textures[1] = create_image(data, "textures/BROWN-ROCK.xpm");
-    textures[2] = create_image(data, "textures/SILVER-ROCK.xpm");
-    textures[3] = create_image(data, "textures/MOSS-ROCK.xpm");
+    textures[0] = create_image(data, data->north_texture);
+    textures[1] = create_image(data, data->south_texture);
+    textures[2] = create_image(data, data->east_texture);
+    textures[3] = create_image(data, data->west_texture);
 
     return textures;
 }
