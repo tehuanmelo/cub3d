@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:47:02 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/12 00:48:27 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/18 09:56:02 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,11 @@ void render_walls(t_data *data)
             // set the color of the wall based on the color from the texture
             int orientation = 0;
             if (!data->rays[x].was_hit_vertical && data->rays[x].is_ray_facing_up)
-                orientation = 2;
+                orientation = 0;
             else if (!data->rays[x].was_hit_vertical && data->rays[x].is_ray_facing_down)
-                orientation = 2;
+                orientation = 1;
             else if (data->rays[x].was_hit_vertical && data->rays[x].is_ray_facing_left)
-                orientation = 3;
+                orientation = 2;
             else if (data->rays[x].was_hit_vertical && data->rays[x].is_ray_facing_right)
                 orientation = 3;
 

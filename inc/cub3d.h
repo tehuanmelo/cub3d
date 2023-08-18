@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:44:27 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/12 00:56:51 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/15 16:46:43 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,6 @@
 #define LIGHT_GREY 0x808080
 
 enum {
-	ON_KEYDOWN = 2,
-	ON_KEYUP = 3,
-	ON_MOUSEDOWN = 4,
-	ON_MOUSEUP = 5,
-	ON_MOUSEMOVE = 6,
-	ON_EXPOSE = 12,
 	ON_DESTROY = 17,
     KEY_ESC = 53,
     KEY_LEFT = 123,
@@ -58,7 +52,6 @@ enum {
     KEY_W = 13,
     KEY_S = 1,
     KEY_D = 2
-    
 };
 
 typedef struct s_ray

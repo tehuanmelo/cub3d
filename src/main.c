@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:47:02 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/15 16:31:19 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/18 10:16:27 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,18 @@
 
 void setup(t_data *data)
 {
+    data->map = get_map();
+    data->cealing_color = DARK_GREY;
+    data->floor_color = LIGHT_GREY;
+    data->textures = get_textures(data);
+
+    
     data->mlx_ptr = mlx_init();
     data->mlx_win = NULL;
-    data->map = get_map();
     data->map_num_rows = get_map_rows(data->map);
     data->map_num_cols = ft_strlen(data->map[0]);
     data->window_width = data->map_num_cols * TILE_SIZE;
     data->window_height = data->map_num_rows * TILE_SIZE;
-    data->cealing_color = DARK_GREY;
-    data->floor_color = LIGHT_GREY;
     data->is_game_running = false;
     data->num_rays = data->window_width;
     data->player.width = 10;
@@ -32,7 +35,6 @@ void setup(t_data *data)
     data->player.turn_direction = 0;
     data->rays = malloc(data->num_rays * sizeof(t_ray));
     data->color_buffer = malloc((data->window_width * data->window_height) * sizeof(int));
-    data->textures = get_textures(data);
     get_player_position(data);
 }
 
