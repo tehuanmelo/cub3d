@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rays_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 14:55:37 by tde-melo          #+#    #+#             */
-/*   Updated: 2023/08/18 14:57:43 by tde-melo         ###   ########.fr       */
+/*   Updated: 2023/08/20 21:36:06 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,18 @@ void init_colision(t_colision *colision, bool is_horizontal)
 
 void find_colision(t_data *data, t_colision *colision, bool direction)
 {
-    float xToCheck;
-    float yToCheck;
+    float check_x;
+    float check_y;
     
     while (is_inside_map(data, colision->next_x_intercept, colision->next_y_intercept))
     {
-        xToCheck = colision->next_x_intercept;
-        yToCheck = colision->next_y_intercept;
+        check_x = colision->next_x_intercept;
+        check_y = colision->next_y_intercept;
         if (direction && !colision->is_horizontal)
-            xToCheck--;
+            check_x--;
         if (direction && colision->is_horizontal)
-            yToCheck--;
-        if (is_wall_at(data, xToCheck, yToCheck))
+            check_y--;
+        if (is_wall_at(data, check_x, check_y))
         {
             colision->wall_hit_x = colision->next_x_intercept;
             colision->wall_hit_y = colision->next_y_intercept;

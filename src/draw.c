@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 00:52:00 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/15 16:36:38 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/20 20:22:31 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void draw_pixel(t_data *data, int x, int y, int color)
 {
-    data->color_buffer[(data->window_width * y) + x] = color;
+    data->color_buffer[(WINDOW_WIDTH * y) + x] = color;
 }
 
 void draw_rect (t_data *data, int x, int y, int width, int height, int color)

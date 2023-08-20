@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 19:28:23 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/18 10:50:31 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/20 21:16:13 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ char **get_map(void)
     if (map == NULL)
         return free(buffer), NULL;
     free(buffer);
+    close(fd);
     return map;
 }
 
@@ -46,15 +47,10 @@ bool is_wall_at(t_data *data, float x, float y)
     int map_grid_x;
     int map_grid_y;
 
-    // if x and y coordinates are out of boundaries returns true and do not move the player
-    if ((x < 0 || x >= data->window_width) || (y < 0 || y >= data->window_height))
+    if (!is_inside_map(data, x, y))
         return true;
-
-    // divide the coordinate by the tile size to find the position in the map array.
-    // round it down to get an integer value
     map_grid_x = floor(x / TILE_SIZE);
     map_grid_y = floor(y / TILE_SIZE);
-
     return data->map[map_grid_y][map_grid_x] == '1';
 }
 
@@ -88,5 +84,5 @@ void render_map(t_data *data)
 
 bool is_inside_map(t_data *data, float x, float y)
 {
-    return (x >= 0 && x <= data->window_width && y >= 0 && y <= data->window_height);
+    return (x >= 0 && x < data->map_num_cols * TILE_SIZE && y >= 0 && y < data->map_num_rows * TILE_SIZE);
 }

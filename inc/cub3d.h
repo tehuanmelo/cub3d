@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:44:27 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/18 22:20:08 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/20 21:43:22 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,19 @@
 #define TWO_PI 6.28318530
 #define TILE_SIZE 64
 #define FOV_ANGLE 60 * (PI / 180)
-#define MINI_MAP_SCALE 0.25
+#define MINI_MAP_SCALE 0.15
+#define WINDOW_WIDTH 1280
+#define WINDOW_HEIGHT 800
+#define PLAYER_WIDTH 6
+#define PLAYER_HEIGHT 6
 
-#define WALK_SPEED 10
-#define TURN_SPEED 6 * (PI / 180)
+#define WALK_SPEED 8
+#define TURN_SPEED 4 * (PI / 180)
 
 #define WHITE 0xFFFFFF
-#define SHADE 0xDDDDDD
 #define RED 0xFF0000
 #define BLACK 0x000000
-#define GREEN 0x00EE00
-#define SKY 0x0ADD8E6
-#define BROWN 0x964B00
 #define DARK_GREY 0x404040
-#define MEDIUN_GREY 0xA0A0A0
 #define LIGHT_GREY 0x808080
 
 enum {
@@ -104,8 +103,6 @@ typedef struct s_player
 {
     float x;
     float y;
-    float width;
-    float height;
     int walk_direction;
     int side_direction;
     int turn_direction;
@@ -126,8 +123,6 @@ typedef struct s_data
 {
     void* mlx_ptr;
     void* mlx_win;
-    int window_width;
-    int window_height;
     int map_num_rows;
     int map_num_cols;
     int num_rays;

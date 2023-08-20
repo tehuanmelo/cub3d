@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 00:31:03 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/15 15:26:02 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/20 21:09:29 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,10 @@ void render_player(t_data *data)
 
     draw_rect(
         data,
-       (data->player.x - 8) * MINI_MAP_SCALE,
-       (data->player.y - 8) * MINI_MAP_SCALE,
-        6,
-        6,
+        (data->player.x - 20) * MINI_MAP_SCALE,
+        (data->player.y - 20) * MINI_MAP_SCALE,
+        (int)PLAYER_WIDTH,
+        (int)PLAYER_HEIGHT,
         RED
-        );
+    );
 }

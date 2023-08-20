@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:47:02 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/18 20:32:01 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/20 21:07:44 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,13 @@ void setup(t_data *data)
     data->mlx_win = NULL;
     data->map_num_rows = get_map_rows(data->map);
     data->map_num_cols = ft_strlen(data->map[0]);
-    data->window_width = data->map_num_cols * TILE_SIZE;
-    data->window_height = data->map_num_rows * TILE_SIZE;
     data->is_game_running = false;
-    data->num_rays = data->window_width;
-    data->player.width = 10;
-    data->player.height = 10;
+    data->num_rays = WINDOW_WIDTH;
     data->player.walk_direction = 0;
     data->player.side_direction = 0;
     data->player.turn_direction = 0;
     data->rays = malloc(data->num_rays * sizeof(t_ray));
-    data->color_buffer = malloc((data->window_width * data->window_height) * sizeof(int));
+    data->color_buffer = malloc((WINDOW_WIDTH * WINDOW_HEIGHT) * sizeof(int));
     get_player_position(data);
 }
 
