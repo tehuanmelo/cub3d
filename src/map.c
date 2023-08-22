@@ -6,7 +6,7 @@
 /*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 19:28:23 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/22 15:24:46 by tde-melo         ###   ########.fr       */
+/*   Updated: 2023/08/22 18:14:21 by tde-melo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,7 @@ bool is_wall_at(t_data *data, float x, float y)
 
 void render_map(t_data *data)
 {
-    int tile_x;
-    int tile_y;
-    int tile_color;
+    t_rect rect;
     int i;
     int j;
 
@@ -69,13 +67,15 @@ void render_map(t_data *data)
         j = 0;
         while (j < data->map_num_cols)
         {
-            tile_x = j * TILE_SIZE;
-            tile_y = i * TILE_SIZE;
+            rect.x = (j * TILE_SIZE) * MINI_MAP_SCALE;
+            rect.y = (i * TILE_SIZE) * MINI_MAP_SCALE;
+            rect.height = TILE_SIZE * MINI_MAP_SCALE;
+            rect.width = TILE_SIZE * MINI_MAP_SCALE;
             if (data->map[i][j] == '1')
-                tile_color = WHITE;
+                rect.color = WHITE;
             else
-                tile_color = BLACK;
-            draw_rect(data, tile_x * MINI_MAP_SCALE, tile_y * MINI_MAP_SCALE, TILE_SIZE * MINI_MAP_SCALE, TILE_SIZE * MINI_MAP_SCALE, tile_color);
+                rect.color = BLACK;
+            draw_rect(data, rect);
             j++;
         }
         i++;

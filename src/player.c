@@ -6,7 +6,7 @@
 /*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 00:31:03 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/22 16:07:30 by tde-melo         ###   ########.fr       */
+/*   Updated: 2023/08/22 18:16:25 by tde-melo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,12 @@ void move_player(t_data *data)
 
 void render_player(t_data *data)
 {
+    t_rect rect;
 
-    draw_rect(
-        data,
-        (data->player.x - 20) * MINI_MAP_SCALE,
-        (data->player.y - 20) * MINI_MAP_SCALE,
-        (int)PLAYER_WIDTH,
-        (int)PLAYER_HEIGHT,
-        RED
-    );
+    rect.x = (data->player.x - 20) * MINI_MAP_SCALE;
+    rect.y = (data->player.y - 20) * MINI_MAP_SCALE;
+    rect.height = PLAYER_HEIGHT;
+    rect.width = PLAYER_WIDTH;
+    rect.color = RED;
+    draw_rect(data, rect);
 }

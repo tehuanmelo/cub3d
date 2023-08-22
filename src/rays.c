@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rays.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
+/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 23:51:35 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/20 21:29:54 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/22 18:26:27 by tde-melo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,18 +106,18 @@ void cast_all_rays(t_data *data)
 
 void render_ray(t_data *data)
 {
+    t_line line;
     int i;
 
     i = 0;
     while (i < data->num_rays)
     {
-        draw_line(
-            data,
-            data->player.x * MINI_MAP_SCALE,
-            data->player.y * MINI_MAP_SCALE,
-            data->rays[i].wall_hit_x * MINI_MAP_SCALE,
-            data->rays[i].wall_hit_y * MINI_MAP_SCALE,
-            RED);
+        line.x0 = data->player.x * MINI_MAP_SCALE;
+        line.y0 = data->player.y * MINI_MAP_SCALE;
+        line.x1 = data->rays[i].wall_hit_x * MINI_MAP_SCALE;
+        line.y1 = data->rays[i].wall_hit_y * MINI_MAP_SCALE;
+        line.color = RED;
+        draw_line(data, line);
         i++;
     }
 }

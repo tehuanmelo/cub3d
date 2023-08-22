@@ -3,72 +3,66 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
+/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 00:52:00 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/20 20:22:31 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/22 18:27:12 by tde-melo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-void draw_pixel(t_data *data, int x, int y, int color)
+void	draw_pixel(t_data *data, int x, int y, int color)
 {
-    data->color_buffer[(WINDOW_WIDTH * y) + x] = color;
+	data->color_buffer[(WINDOW_WIDTH * y) + x] = color;
 }
 
-void draw_rect (t_data *data, int x, int y, int width, int height, int color)
+void	draw_rect(t_data *data, t_rect rect)
 {
-    int i;
-    int j;
-    
-    i = x;
-    while (i < x + width)
-    {
-        j = y;
-        while (j < y + height)
-        {
-            draw_pixel(data, i, j, color);
-            j++;
-        }
-        i++;
-    }
+	int	i;
+	int	j;
+
+	i = rect.x;
+	while (i < rect.x + rect.width)
+	{
+		j = rect.y;
+		while (j < rect.y + rect.height)
+		{
+			draw_pixel(data, i, j, rect.color);
+			j++;
+		}
+		i++;
+	}
 }
 
-int get_side_step(int delta_x, int delta_y)
+int	get_side_step(int delta_x, int delta_y)
 {
-    int side_step;
-    
-    if (abs(delta_x) >= abs(delta_y))
-        side_step = abs(delta_x);
-    else    
-        side_step = abs(delta_y);
-    return side_step;
+	int	side_step;
+
+	if (abs(delta_x) >= abs(delta_y))
+		side_step = abs(delta_x);
+	else
+		side_step = abs(delta_y);
+	return (side_step);
 }
 
-void draw_line(t_data *data, int x0, int y0, int x1, int y1, int color)
+void	draw_line(t_data *data, t_line line)
 {
-    int delta_x;
-    int delta_y;
-    int side_step;
-    float current_x;
-    float current_y;
-    float inc_x;
-    float inc_y;
-    int i;
+	int	i;
 
-    delta_x = (x1 - x0);
-    delta_y = (y1 - y0);
-    side_step = get_side_step(delta_x, delta_y);
-    current_x = x0;
-    current_y = y0;
-    inc_x = delta_x / (float)side_step;
-    inc_y = delta_y / (float)side_step;
-    i = -1;
-    while (++i < side_step)
-    {
-        draw_pixel(data, round(current_x), round(current_y), color);
-        current_x += inc_x;
-        current_y += inc_y;
-    }
+	line.delta_x = (line.x1 - line.x0);
+	line.delta_y = (line.y1 - line.y0);
+	line.side_step = get_side_step(line.delta_x, line.delta_y);
+	line.current_x = line.x0;
+	line.current_y = line.y0;
+	line.inc_x = line.delta_x / (float)line.side_step;
+	line.inc_y = line.delta_y / (float)line.side_step;
+	i = -1;
+	while (++i < line.side_step)
+	{
+		draw_pixel(data, round(line.current_x), round(line.current_y),
+			line.color);
+		line.current_x += line.inc_x;
+		line.current_y += line.inc_y;
+	}
 }

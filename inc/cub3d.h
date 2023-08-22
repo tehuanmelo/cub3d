@@ -6,7 +6,7 @@
 /*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:44:27 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/22 17:47:12 by tde-melo         ###   ########.fr       */
+/*   Updated: 2023/08/22 18:24:00 by tde-melo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,31 @@ enum {
     KEY_S = 1,
     KEY_D = 2
 };
+
+typedef struct s_rect
+{
+    int x;
+    int y;
+    int width;
+    int height;
+    int color;
+} t_rect;
+
+typedef struct s_line
+{
+    int x0;
+    int y0;
+    int x1;
+    int y1;
+    int delta_x;
+	int	delta_y;
+	int	side_step;
+	float current_x;
+	float current_y;
+	float inc_x;
+	float inc_y;
+    int color;
+} t_line;
 
 typedef struct s_wall
 {
@@ -146,8 +171,8 @@ void init_buffer_image(t_data *data);
 
 // draw.c
 void draw_pixel(t_data *data, int x, int y, int color);
-void draw_rect (t_data *data, int x, int y, int width, int height, int color);
-void draw_line(t_data *data, int x0, int y0, int x1, int y1, int color);
+void draw_rect (t_data *data, t_rect rect);
+void draw_line(t_data *data, t_line line);
 
 // map.c
 void render_map(t_data *data);
