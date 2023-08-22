@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
+/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 19:28:23 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/20 21:16:13 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/22 15:24:46 by tde-melo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ bool is_wall_at(t_data *data, float x, float y)
         return true;
     map_grid_x = floor(x / TILE_SIZE);
     map_grid_y = floor(y / TILE_SIZE);
-    return data->map[map_grid_y][map_grid_x] == '1';
+    return data->map[map_grid_y][map_grid_x] == '1' || data->map[map_grid_y][map_grid_x] == '2';
 }
 
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
+/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 00:31:03 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/20 21:09:29 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/22 16:07:30 by tde-melo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ void get_player_position(t_data *data)
             if (data->map[i][j] != '0' && data->map[i][j] != '1')
             {
                 if (data->map[i][j] == 'N')
-                    data->player.rotation_angle = 0.75 * (2 * PI);
+                    data->player.rotation_angle = 271 * (PI / 180);
                 else if (data->map[i][j] == 'S')
-                    data->player.rotation_angle = 0.25 * (2 * PI);
+                    data->player.rotation_angle = 91 * (PI / 180);
                 else if (data->map[i][j] == 'E')
-                    data->player.rotation_angle = 2 * (2 * PI);
+                    data->player.rotation_angle = 1;
                 else if (data->map[i][j] == 'W')
-                    data->player.rotation_angle = 0.5 * (2 * PI);
-                data->player.x = j * TILE_SIZE;
-                data->player.y = i * TILE_SIZE;
+                    data->player.rotation_angle = 181 * (PI / 180);
+                data->player.x = (j * TILE_SIZE) + 32;
+                data->player.y = (i * TILE_SIZE) + 32;
                 return;
             }
         }

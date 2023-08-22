@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
+/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:47:02 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/20 21:07:44 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/22 17:39:51 by tde-melo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void setup(t_data *data)
     data->rays = malloc(data->num_rays * sizeof(t_ray));
     data->color_buffer = malloc((WINDOW_WIDTH * WINDOW_HEIGHT) * sizeof(int));
     get_player_position(data);
+    init_buffer_image(data);
 }
 
 void update(t_data *data)
