@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 19:28:23 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/22 19:39:09 by tde-melo         ###   ########.fr       */
+/*   Updated: 2023/08/30 19:16:43 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	get_map_rows(char **map)
 	int	rows;
 
 	rows = 0;
-	while (*map++)
+	while (map[rows])
 		rows++;
 	return (rows);
 }
@@ -66,11 +66,11 @@ void	render_map(t_data *data)
 	int		i;
 	int		j;
 
-	i = 0;
-	while (i < data->map_num_rows)
+	i = -1;
+	while (++i < data->map_num_rows)
 	{
-		j = 0;
-		while (j < data->map_num_cols)
+		j = -1;
+		while (++j < data->map_num_cols)
 		{
 			rect.x = (j * TILE_SIZE) * MINI_MAP_SCALE;
 			rect.y = (i * TILE_SIZE) * MINI_MAP_SCALE;
@@ -81,9 +81,7 @@ void	render_map(t_data *data)
 			else
 				rect.color = BLACK;
 			draw_rect(data, rect);
-			j++;
 		}
-		i++;
 	}
 }
 

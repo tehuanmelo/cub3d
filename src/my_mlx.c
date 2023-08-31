@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   my_mlx.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 20:12:23 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/22 18:47:01 by tde-melo         ###   ########.fr       */
+/*   Updated: 2023/08/30 19:17:47 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 
 int	my_mlx_pixel_get(t_image *img, int x, int y)
 {
-	int		color;
 	char	*dst;
 
 	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-	color = *(unsigned int *)dst;
-	return (color);
+	return (*(unsigned int *)dst);
 }
 
 void	my_mlx_pixel_put(t_image *img, int x, int y, int color)

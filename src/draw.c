@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 00:52:00 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/22 18:41:55 by tde-melo         ###   ########.fr       */
+/*   Updated: 2023/08/30 19:08:00 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,28 +22,21 @@ void	draw_rect(t_data *data, t_rect rect)
 	int	i;
 	int	j;
 
-	i = rect.x;
-	while (i < rect.x + rect.width)
+	i = rect.x - 1;
+	while (++i < rect.x + rect.width)
 	{
-		j = rect.y;
-		while (j < rect.y + rect.height)
-		{
+		j = rect.y - 1;
+		while (++j < rect.y + rect.height)
 			draw_pixel(data, i, j, rect.color);
-			j++;
-		}
-		i++;
 	}
 }
 
 int	get_side_step(int delta_x, int delta_y)
 {
-	int	side_step;
-
 	if (abs(delta_x) >= abs(delta_y))
-		side_step = abs(delta_x);
+		return (abs(delta_x));
 	else
-		side_step = abs(delta_y);
-	return (side_step);
+		return (abs(delta_y));
 }
 
 void	draw_line(t_data *data, t_line line)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graphics.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 15:58:50 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/22 18:43:39 by tde-melo         ###   ########.fr       */
+/*   Updated: 2023/08/30 19:06:41 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,17 @@ int	initialize_window(t_data *data)
 	data->mlx_win = mlx_new_window(data->mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT,
 			"Cub3d");
 	if (!data->mlx_ptr || !data->mlx_win)
-	{
 		perror("Could not initialize the window");
-		return (false);
-	}
-	return (true);
+	return (data->mlx_ptr && data->mlx_win);
 }
 
 void	clear_color_buffer(t_data *data, int color)
 {
 	int	i;
 
-	i = 0;
-	while (i < WINDOW_WIDTH * WINDOW_HEIGHT)
-	{
+	i = -1;
+	while (++i < WINDOW_WIDTH * WINDOW_HEIGHT)
 		data->color_buffer[i] = color;
-		i++;
-	}
 }
 
 void	init_buffer_image(t_data *data)
@@ -50,17 +44,13 @@ void	render_color_buffer(t_data *data)
 	int	x;
 	int	y;
 
-	x = 0;
-	while (x < WINDOW_WIDTH)
+	x = -1;
+	while (++x < WINDOW_WIDTH)
 	{
-		y = 0;
-		while (y < WINDOW_HEIGHT)
-		{
+		y = -1;
+		while (++y < WINDOW_HEIGHT)
 			my_mlx_pixel_put(&data->buffer_image, x, y,
 				data->color_buffer[(WINDOW_WIDTH * y) + x]);
-			y++;
-		}
-		x++;
 	}
 	clear_color_buffer(data, 0x000000);
 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win,

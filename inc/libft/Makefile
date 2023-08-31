@@ -1,21 +1,26 @@
+SRCS = ft_bzero.c ft_calloc.c ft_split.c ft_strjoin.c ft_strlen.c \
+		 ft_strncmp.c ft_strrchr.c ft_substr.c \
+		 get_next_line.c get_next_line_utils.c \
+
+OBJS = ${SRCS:.c=.o}
+
 NAME = libft.a
-SRC = ft_bzero.c   ft_calloc.c  ft_split.c   ft_strjoin.c ft_strlen.c  ft_strncmp.c ft_strrchr.c ft_substr.c
-OBJ = $(SRC:.c=.o)
-CC = gcc
-CFLAGS = -Wall -Werror -Wextra
 
-.SILENT:
+all: ${NAME}
 
-$(NAME):	$(OBJ)
-	ar rcs $(NAME) $(OBJ)
+${NAME}: ${OBJS}
+	@ar -rcs ${NAME} ${OBJS}
+	@make clean
 
-all:	$(NAME) 
+%.o: %.c
+	@gcc -Wall -Werror -Wextra -c $< -o $@
 
 clean:
-	rm -f *.o *.out
+	@rm -f ${OBJS}
 
-fclean:	clean
-	rm -f *.a
+fclean: clean
+	@rm -f ${NAME}
 
-re:	fclean all
+re: fclean all
+
 

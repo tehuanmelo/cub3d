@@ -11,7 +11,8 @@ OBJDIR = ./obj/
 SRCDIR = ./src/
 
 # source files
-SRCFILES = main.c graphics.c map.c my_mlx.c rays.c player.c input.c walls.c release.c draw.c rays_utils.c textures.c
+SRCFILES = main.c graphics.c map.c my_mlx.c rays.c player.c input.c \
+			walls.c release.c draw.c rays_utils.c textures.c parse.c \
 # object files
 OBJFILES = $(SRCFILES:.c=.o)
 
@@ -35,7 +36,7 @@ $(NAME):	$(OBJ)
 	$(MAKE) -C $(LIBFT)
 	# $(MAKE) -C $(MLX) 2>/dev/null
 	$(CC) $(CFLAGS) $(OBJ) $(LIBFT)/libft.a $(MLX)/libmlx.a -framework OpenGL -framework AppKit -o $@
-	echo "Compilation done successfully!"
+	printf "\x1B[32m$(NAME) ready\x1B[0m\n";
 
 # compile objects
 $(OBJDIR)%.o: $(SRCDIR)%.c

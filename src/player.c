@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
+/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 00:31:03 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/28 22:21:19 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/22 19:50:17 by tde-melo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	get_player_position(t_data *data)
 				&& data->map[i][j] != ' ')
 			{
 				get_rotation_angle(data, i, j);
-				data->player.x = (j * TILE_SIZE) + (TILE_SIZE / 2);
-				data->player.y = (i * TILE_SIZE) + (TILE_SIZE / 2);
+				data->player.x = (j * TILE_SIZE) + 32;
+				data->player.y = (i * TILE_SIZE) + 32;
 				return ;
 			}
 		}

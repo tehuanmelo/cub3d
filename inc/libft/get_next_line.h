@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/13 13:05:34 by tde-melo          #+#    #+#             */
-/*   Updated: 2023/08/30 21:02:04 by mgoltay          ###   ########.fr       */
+/*   Created: 2022/10/11 18:09:19 by mgoltay           #+#    #+#             */
+/*   Updated: 2022/10/13 20:09:08 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// DESCRIPTION
-//      The ft_bzero() function writes n zeroed bytes to the string s.
-//      If n is zero, bzero() does nothing.
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-#include "libft.h"
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
-void	ft_bzero(void *s, size_t n)
-{
-	while (n--)
-		((unsigned char *)s)[n] = 0;
-}
+# include <unistd.h>
+# include <stdlib.h>
 
-void	ft_putstr_fd(char *s, int fd)
-{
-	while (s && *s)
-		write(fd, s++, 1);
-}
+char	*get_next_line(int fd);
+
+int		ft_strlen_nl(char *str, int detect_nl);
+int		isin(char *buffer, char c);
+char	*ft_strjoin(char *dest, char *src);
+
+#endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rays.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 23:51:35 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/22 19:21:05 by tde-melo         ###   ########.fr       */
+/*   Updated: 2023/08/30 19:21:42 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,11 @@ void	cast_all_rays(t_data *data)
 	int		i;
 
 	ray_angle = data->player.rotation_angle - (FOV_ANGLE / 2);
-	i = 0;
-	while (i < data->num_rays)
+	i = -1;
+	while (++i < data->num_rays)
 	{
 		cast_ray(data, ray_angle, i);
 		ray_angle += FOV_ANGLE / data->num_rays;
-		i++;
 	}
 }
 
@@ -110,8 +109,8 @@ void	render_ray(t_data *data)
 	t_line	line;
 	int		i;
 
-	i = 0;
-	while (i < data->num_rays)
+	i = -1;
+	while (++i < data->num_rays)
 	{
 		line.x0 = data->player.x * MINI_MAP_SCALE;
 		line.y0 = data->player.y * MINI_MAP_SCALE;
@@ -119,6 +118,5 @@ void	render_ray(t_data *data)
 		line.y1 = data->rays[i].wall_hit_y * MINI_MAP_SCALE;
 		line.color = RED;
 		draw_line(data, line);
-		i++;
 	}
 }

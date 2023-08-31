@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:18:59 by tde-melo          #+#    #+#             */
-/*   Updated: 2022/12/27 17:36:50 by tde-melo         ###   ########.fr       */
+/*   Updated: 2023/08/30 19:35:09 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,7 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 /*** My implementation ***/
 
 int					ft_intlen(int n);
+
+char				*get_next_line(int fd);
 
 #endif

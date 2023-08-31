@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
+/*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:44:27 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/31 12:44:39 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/30 21:04:05 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,13 +162,11 @@ typedef struct s_data
 	t_player		player;
 	t_image			buffer_image;
 	t_image			*textures;
+	t_image			texture;
 	t_ray			*rays;
 	char			**map;
 	int				*color_buffer;
 }					t_data;
-
-//main.c
-void				update(t_data *data);
 
 // graphics.c
 int					initialize_window(t_data *data);
@@ -217,7 +215,6 @@ void				get_rotation_angle(t_data *data, int i, int j);
 //input.c
 int					key_pressed(int keycode, t_data *data);
 int					key_released(int keycode, t_data *data);
-int					mouse_event(int x, int y, t_data *data);
 
 // walls.c
 void				draw_cealing(t_data *data, t_wall wall, int x);
@@ -231,5 +228,8 @@ t_image				*get_textures(t_data *data);
 
 // release.c
 int					release_resources(t_data *data);
+
+// parse.c
+int				parse(t_data *data, char *filename);
 
 #endif

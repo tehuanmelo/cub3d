@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   walls.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:47:02 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/22 19:03:49 by tde-melo         ###   ########.fr       */
+/*   Updated: 2023/08/30 19:23:01 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,18 @@ void	draw_cealing(t_data *data, t_wall wall, int x)
 {
 	int	y;
 
-	y = 0;
-	while (y < wall.top_pixel)
-	{
+	y = -1;
+	while (++y < wall.top_pixel)
 		draw_pixel(data, x, y, data->cealing_color);
-		y++;
-	}
 }
 
 void	draw_floor(t_data *data, t_wall wall, int x)
 {
 	int	y;
 
-	y = wall.bottom_pixel;
-	while (y < WINDOW_HEIGHT)
-	{
+	y = wall.bottom_pixel - 1;
+	while (++y < WINDOW_HEIGHT)
 		draw_pixel(data, x, y, data->floor_color);
-		y++;
-	}
 }
 
 void	init_wall(t_data *data, t_wall *wall, int x)
@@ -90,13 +84,12 @@ void	render_walls(t_data *data)
 	int		x;
 	t_wall	wall;
 
-	x = 0;
-	while (x < data->num_rays)
+	x = -1;
+	while (++x < data->num_rays)
 	{
 		init_wall(data, &wall, x);
 		draw_cealing(data, wall, x);
 		draw_wall(data, wall, x);
 		draw_floor(data, wall, x);
-		x++;
 	}
 }
