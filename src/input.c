@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 00:36:59 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/30 19:10:13 by mgoltay          ###   ########.fr       */
+/*   Updated: 2023/08/31 16:28:06 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,20 @@ int	key_released(int keycode, t_data *data)
 	else if (keycode == KEY_RIGHT || keycode == KEY_LEFT)
 		data->player.turn_direction = 0;
 	return (EXIT_SUCCESS);
+}
+
+int mouse_event(int x, int y, t_data *data)
+{
+	static int prev;	
+	int current;
+	
+	current = x;
+	if (current > prev)
+		data->player.turn_direction = 1;
+	else if (current < prev)
+		data->player.turn_direction = -1;
+	move_player(data);
+	data->player.turn_direction = 0;
+	prev = current;
+	return (y);
 }

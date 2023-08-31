@@ -34,7 +34,7 @@ all: $(OBJDIR) $(NAME)
 # compile executable and libraries
 $(NAME):	$(OBJ)
 	$(MAKE) -C $(LIBFT)
-	# $(MAKE) -C $(MLX) 2>/dev/null
+	$(MAKE) -C $(MLX) 2>/dev/null
 	$(CC) $(CFLAGS) $(OBJ) $(LIBFT)/libft.a $(MLX)/libmlx.a -framework OpenGL -framework AppKit -o $@
 	printf "\x1B[32m$(NAME) ready\x1B[0m\n";
 
@@ -50,7 +50,7 @@ $(OBJDIR):
 clean:
 	rm -rf $(OBJDIR)
 	$(MAKE) -C $(LIBFT) clean
-	# $(MAKE) -C $(MLX) clean
+	$(MAKE) -C $(MLX) clean
 
 # fclean rule
 fclean: clean
