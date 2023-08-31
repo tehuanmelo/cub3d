@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:47:02 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/22 18:44:07 by tde-melo         ###   ########.fr       */
+/*   Updated: 2023/08/31 12:43:49 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	main(void)
 		mlx_loop_hook(data.mlx_ptr, game_loop, &data);
 		mlx_hook(data.mlx_win, 2, 1L << 0, key_pressed, &data);
 		mlx_hook(data.mlx_win, 3, 1L << 0, key_released, &data);
+		mlx_hook(data.mlx_win, 6, 1L << 0, mouse_event, &data);
 		mlx_hook(data.mlx_win, ON_DESTROY, 1L << 17, release_resources, &data);
 		mlx_loop(data.mlx_ptr);
 	}

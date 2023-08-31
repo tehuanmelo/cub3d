@@ -6,7 +6,7 @@
 /*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:44:27 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/28 22:20:43 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/08/31 12:44:39 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,9 @@ typedef struct s_data
 	int				*color_buffer;
 }					t_data;
 
+//main.c
+void				update(t_data *data);
+
 // graphics.c
 int					initialize_window(t_data *data);
 void				clear_color_buffer(t_data *data, int color);
@@ -214,6 +217,7 @@ void				get_rotation_angle(t_data *data, int i, int j);
 //input.c
 int					key_pressed(int keycode, t_data *data);
 int					key_released(int keycode, t_data *data);
+int					mouse_event(int x, int y, t_data *data);
 
 // walls.c
 void				draw_cealing(t_data *data, t_wall wall, int x);
