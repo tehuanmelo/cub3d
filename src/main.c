@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
+/*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:47:02 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/31 16:32:30 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/09/02 21:36:38 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	setup(t_data *data)
 {
-	parse(data, "./map/map.cub");
 	data->mlx_win = NULL;
 	data->is_game_running = false;
 	data->num_rays = WINDOW_WIDTH;
@@ -62,15 +61,9 @@ int	main(int argc, char *argv[])
 	t_data	data;
 
 	if (argc != 2)
-	{
-		ft_putstr_fd("\x1B[31mIncorrect Number of Arguments!\x1B[0m\n", 2);
-		return (1);
-	}
+		return (ft_putstr_fd("\x1B[31mIncorrect Number of Arguments!\x1B[0m\n", 2), 1);
 	if (!parse(&data, argv[1]))
-	{
-		ft_putstr_fd("\x1B[31mError!\x1B[0m\n", 2);
 		return (1);
-	}
 	setup(&data);
 	data.is_game_running = initialize_window(&data);
 	if (data.is_game_running)

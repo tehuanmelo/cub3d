@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 19:02:26 by tde-melo          #+#    #+#             */
-/*   Updated: 2023/08/22 19:24:02 by tde-melo         ###   ########.fr       */
+/*   Updated: 2023/09/02 16:48:10 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,13 @@
 t_image	*get_textures(t_data *data)
 {
 	t_image	*textures;
-	char	*north;
-	char	*south;
-	char	*east;
-	char	*west;
 
-	north = "textures/RED-BRICK.xpm";
-	south = "textures/MOSS-ROCK.xpm";
-	east = "textures/SILVER-ROCK.xpm";
-	west = "textures/BLUE-ROCK.xpm";
-	textures = malloc(sizeof(t_image) * 4);
+	textures = malloc(sizeof(t_image) * 4); // NSEW
 	if (!textures)
 		return (NULL);
-	textures[0] = create_image(data, north);
-	textures[1] = create_image(data, south);
-	textures[2] = create_image(data, east);
-	textures[3] = create_image(data, west);
+	textures[0] = create_image(data, "textures/RED-BRICK.xpm");
+	textures[1] = create_image(data, "textures/MOSS-ROCK.xpm");
+	textures[2] = create_image(data, "textures/SILVER-ROCK.xpm");
+	textures[3] = create_image(data, "textures/BLUE-ROCK.xpm");
 	return (textures);
 }

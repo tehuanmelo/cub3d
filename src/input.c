@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
+/*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 00:36:59 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/31 16:28:06 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/09/02 20:28:26 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	key_released(int keycode, t_data *data)
 
 int mouse_event(int x, int y, t_data *data)
 {
-	static int prev;	
+	static int prev;
 	int current;
 	
 	current = x;

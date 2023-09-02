@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strfunc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/11 18:09:19 by mgoltay           #+#    #+#             */
-/*   Updated: 2023/09/02 20:05:32 by mgoltay          ###   ########.fr       */
+/*   Created: 2023/09/02 17:17:55 by mgoltay           #+#    #+#             */
+/*   Updated: 2023/09/02 18:36:53 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1000
-# endif
+int	ft_strcpy(char *dst, char *src)
+{
+	int i;
 
-# include <unistd.h>
-# include <stdlib.h>
-
-char	*get_next_line(int fd);
-
-int		ft_strlen_nl(char *str, int detect_nl);
-int		isin(char *buffer, char c);
-char	*ft_strjoin(char *dest, char *src);
-
-#endif
+	if (!dst || !src)
+		return (0);
+	i = -1;
+	while (src[++i])
+		dst[i] = src[i];
+	dst[i] = '\0';
+	return (i);
+}

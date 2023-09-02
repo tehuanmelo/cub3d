@@ -6,7 +6,7 @@
 /*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 16:18:59 by tde-melo          #+#    #+#             */
-/*   Updated: 2023/08/30 19:35:09 by mgoltay          ###   ########.fr       */
+/*   Updated: 2023/09/02 18:31:14 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,15 @@
 # include <string.h>
 # include <unistd.h>
 
+# include "get_next_line.h"
+
 typedef struct s_list
 {
-	void			*content;
+	char			*content;
 	struct s_list	*next;
 }					t_list;
+
+int					ft_strcpy(char *dst, char *src);
 
 /*** PART 1 ***/
 int					ft_isalnum(int c);
@@ -73,13 +77,13 @@ void				ft_putnbr_fd(int n, int fd);
 // void				ft_putnbr(int n);
 
 /*** BONUS ***/
-t_list				*ft_lstnew(void *content);
+t_list				*ft_lstnew(char *content);
 t_list				*ft_lstlast(t_list *lst);
 int					ft_lstsize(t_list *lst);
 void				ft_lstadd_front(t_list **lst, t_list *new);
 void				ft_lstadd_back(t_list **lst, t_list *new);
 void				ft_lstdelone(t_list *lst, void (*del)(void *));
-void				ft_lstclear(t_list **lst, void (*del)(void *));
+void				ft_lstclear(t_list **lst);
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
@@ -87,7 +91,5 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 /*** My implementation ***/
 
 int					ft_intlen(int n);
-
-char				*get_next_line(int fd);
 
 #endif

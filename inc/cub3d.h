@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
+/*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:44:27 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/31 16:32:52 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/09/02 21:36:10 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "./libft/libft.h"
 # include "./mlx/mlx.h"
+# include <unistd.h>
 # include <fcntl.h>
 # include <limits.h>
 # include <math.h>
@@ -181,8 +182,6 @@ void				draw_line(t_data *data, t_line line);
 
 // map.c
 void				render_map(t_data *data);
-char				**get_map(void);
-int					get_map_rows(char **map);
 bool				is_wall_at(t_data *data, float x, float y);
 bool				is_inside_map(t_data *data, float x, float y);
 

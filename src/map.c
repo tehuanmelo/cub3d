@@ -6,46 +6,11 @@
 /*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 19:28:23 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/30 19:16:43 by mgoltay          ###   ########.fr       */
+/*   Updated: 2023/09/02 21:36:26 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
-
-char	**get_map(void)
-{
-	int		fd;
-	char	*buffer;
-	char	character;
-	int		flag;
-	int		i;
-	char	**map;
-
-	fd = open("map/map.cub", O_RDONLY);
-	buffer = malloc(100000 * sizeof(char));
-	i = 0;
-	while ((flag = read(fd, &character, 1)) > 0)
-		buffer[i++] = character;
-	buffer[i] = 0;
-	if (flag == -1 || i == 0)
-		return (free(buffer), NULL);
-	map = ft_split(buffer, '\n');
-	if (map == NULL)
-		return (free(buffer), NULL);
-	free(buffer);
-	close(fd);
-	return (map);
-}
-
-int	get_map_rows(char **map)
-{
-	int	rows;
-
-	rows = 0;
-	while (map[rows])
-		rows++;
-	return (rows);
-}
 
 bool	is_wall_at(t_data *data, float x, float y)
 {
