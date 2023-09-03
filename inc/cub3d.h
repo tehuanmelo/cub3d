@@ -6,7 +6,7 @@
 /*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:44:27 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/09/02 21:36:10 by mgoltay          ###   ########.fr       */
+/*   Updated: 2023/09/03 21:00:12 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,7 +229,23 @@ t_image				*get_textures(t_data *data);
 // release.c
 int					release_resources(t_data *data);
 
+// check.c
+int				mapCheck(t_data *data);
+
+// info.c
+int			parseData(t_data *data, t_list *info);
+
 // parse.c
 int				parse(t_data *data, char *filename);
+
+// utils.c
+char			**make2d(int rows, int cols);
+void			free2d(char **strs);
+t_list			*readLines(int fd);\
+void			printlist(t_list *head);
+void			printMap(t_data *data);
+int				isIn(char c, char *str);
+
+
 
 #endif

@@ -6,52 +6,72 @@
 /*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:29:15 by mgoltay           #+#    #+#             */
-/*   Updated: 2023/09/02 21:57:16 by mgoltay          ###   ########.fr       */
+/*   Updated: 2023/09/03 19:06:13 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-int	isIn(char c, char *str)
+// if space is anywhere near something thats not a 1, error
+int	checkSpace(t_data *data)
 {
-	int	i;
-
-	if (!str)
-		return (0);
-	while (*str)
-		if (*(str++) == c)
-			return (1);
-	return (0);
-}
-
-// 4way check, stops at boundaries
-// checks for 1, if so check = true, dont recurse
-
-
-int	recursion(t_data *data, char **checked, int x, int y)
-{
-	if (data->map[x][y] == ' ')
-		return (0);
-	if (x + 1 < data->map_num_rows && !checked[x + 1][y])
+	int i;
+	int	j;
+	
+	i = -1;
+	while (++i < data->map_num_rows)
 	{
-		if (data->map[x + 1][y] )
-		return (recursion)
+		j = -1;
+		while (++j < data->map_num_cols)
+		{
+			if (isIn(data->map[i][j], "0NSEW"))
+			{
+				if (i + 1 < data->map_num_rows && data->map[i + 1][j] == ' ')
+					return (0);
+				if (i - 1 >= 0 && data->map[i - 1][j] == ' ')
+					return (0);
+				if (j + 1 < data->map_num_cols && data->map[i][j + 1] == ' ')
+					return (0);
+				if (j - 1 >= 0 && data->map[i][j - 1] == ' ')
+					return (0);
+			}
+		}
 	}
 	return (1);
 }
 
+int	recursion(t_data *data, char **checked, int x, int y)
+{
+	int	flag;
+
+	if (x < 0 || x >= data->map_num_rows || y < 0 || y >= data->map_num_cols)
+		return (0);
+	checked[x][y] = 1;
+	if (data->map[x][y] == '1')
+		return (1);
+	if (x == 0 || x == data->map_num_rows - 1 || y == 0 || y == data->map_num_cols - 1)
+		return (0);
+	flag = 1;
+	if (data->map[x][y] == ' ')
+		data->map[x][y] = '1';
+	if (!checked[x - 1][y])
+		flag = flag && recursion(data, checked, x - 1, y);
+	if (!checked[x + 1][y])
+		flag = flag && recursion(data, checked, x + 1, y);
+	if (!checked[x][y - 1])
+		flag = flag && recursion(data, checked, x, y - 1);
+	if (!checked[x][y + 1])
+		flag = flag && recursion(data, checked, x, y + 1);
+	return (flag);
+}
+
 int	floodFill(t_data *data)
 {
-	int	i;
 	int	x;
 	int	y;
-	char **checked;
+	char	**checked;
+	int	flag;
 
-	checked = (char **) malloc(sizeof(char *) * data->map_num_rows);
-	i = -1;
-	while (++i < data->map_num_rows)
-		checked[i] = (char *) malloc(sizeof(char) * data->map_num_cols);
-	ft_bzero(checked, data->map_num_rows * data->map_num_cols);
 	x = -1;
 	while (++x < data->map_num_rows)
 	{
@@ -62,11 +82,13 @@ int	floodFill(t_data *data)
 		if (y != data->map_num_cols)
 			break ;
 	}
-	checked[x][y] = 1;
-	return (recursion(data, checked, x, y));
+	checked = make2d(data->map_num_rows, data->map_num_cols);
+	flag = recursion(data, checked, x, y);
+	free2d(checked);
+	return (flag);
 }
 
-int	isSurrounded(t_data *data)
+int	isSurroundedR(t_data *data)
 {
 	int	i;
 	int	j;
@@ -83,6 +105,14 @@ int	isSurrounded(t_data *data)
 			if (data->map[i][j--] != ' ')
 				return (0);
 	}
+	return (1);
+}
+
+int	isSurroundedC(t_data *data)
+{
+	int	i;
+	int	j;
+
 	j = -1;
 	while (++j < data->map_num_cols)
 	{
@@ -122,7 +152,7 @@ int	charCheck(t_data *data)
 
 int	mapCheck(t_data *data)
 {
-	if (!(charCheck(data) && isSurrounded(data) && floodFill(data)))
+	if (!(charCheck(data) && isSurroundedR(data) && isSurroundedC(data) && floodFill(data)))
 		return (0);
 	return (1);
 }
