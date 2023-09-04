@@ -6,7 +6,7 @@
 /*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 13:05:34 by tde-melo          #+#    #+#             */
-/*   Updated: 2023/09/03 15:12:03 by mgoltay          ###   ########.fr       */
+/*   Updated: 2023/09/04 20:37:32 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,15 @@ void	ft_putstr_fd(char *s, int fd)
 {
 	while (s && *s)
 		write(fd, s++, 1);
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	size_t	i;
+
+	i = -1;
+	while (s1[++i])
+		if (s1[i] != s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

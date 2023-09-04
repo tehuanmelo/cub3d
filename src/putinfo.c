@@ -6,11 +6,22 @@
 /*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:47:56 by mgoltay           #+#    #+#             */
-/*   Updated: 2023/09/04 19:21:05 by mgoltay          ###   ########.fr       */
+/*   Updated: 2023/09/04 22:15:29 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
+
+void	removestart(char *str)
+{
+	int	i;
+
+	if (!str || !str[0])
+		return ;
+	i = -1;
+	while (str[++i])
+		str[i] = str[i + 1];
+}
 
 int	ft_atoi_len(char *str, int *i)
 {
@@ -21,7 +32,7 @@ int	ft_atoi_len(char *str, int *i)
 	num = 0;
 	while (str[*i] && str[*i] != ',')
 	{
-		if (str[*i] < '0' && str[*i] > '9')
+		if (str[*i] < '0' || str[*i] > '9')
 			return (-1);
 		num = num * 10 + (str[(*i)++] - '0');
 	}
@@ -30,7 +41,7 @@ int	ft_atoi_len(char *str, int *i)
 	return (num);
 }
 
-int	parseColor(char *str)
+int	parsecolor(char *str)
 {
 	int	colour;
 	int	num;
@@ -55,13 +66,12 @@ int	parseColor(char *str)
 	return (colour);
 }
 
-// NO, SO, WE, EA, F, C
-int	putData(t_data *data, char *strinfo[6])
+int	checkdata(char *strinfo[6])
 {
 	int	fd[4];
 	int	i;
 
-	if (parseColor(&strinfo[4][2]) == -1 || parseColor(&strinfo[5][2]) == -1)
+	if (parsecolor(&strinfo[4][2]) == -1 || parsecolor(&strinfo[5][2]) == -1)
 		return (0);
 	i = -1;
 	while (++i < 4)
@@ -74,8 +84,18 @@ int	putData(t_data *data, char *strinfo[6])
 	while (++i < 4)
 		if (fd[i] == -1)
 			return (0);
-	data->floor_color = parseColor(&strinfo[4][2]);
-	data->cealing_color = parseColor(&strinfo[5][2]);
+	return (1);
+}
+
+// NO, SO, WE, EA, F, C
+int	putdata(t_data *data, char *strinfo[6])
+{
+	int	i;
+
+	if (!checkdata(strinfo))
+		return (0);
+	data->floor_color = parsecolor(&strinfo[4][2]);
+	data->cealing_color = parsecolor(&strinfo[5][2]);
 	data->textures = malloc(sizeof(t_image) * 4);
 	if (!data->textures)
 		return (0);

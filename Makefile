@@ -12,7 +12,7 @@ SRCDIR = ./src/
 
 # source files
 SRCFILES = main.c graphics.c map.c my_mlx.c rays.c player.c input.c \
-			walls.c release.c draw.c rays_utils.c textures.c \
+			walls.c release.c draw.c rays_utils.c \
 			parse.c check.c utils.c info.c putinfo.c \
 # object files
 OBJFILES = $(SRCFILES:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:09:19 by mgoltay           #+#    #+#             */
-/*   Updated: 2023/09/02 20:05:32 by mgoltay          ###   ########.fr       */
+/*   Updated: 2023/09/04 19:33:27 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 char	*get_next_line(int fd);
 
 int		ft_strlen_nl(char *str, int detect_nl);
-int		isin(char *buffer, char c);
+int		isin(char c, char *buffer);
 char	*ft_strjoin(char *dest, char *src);
 
 #endif

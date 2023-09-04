@@ -6,7 +6,7 @@
 /*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:47:02 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/09/02 21:36:38 by mgoltay          ###   ########.fr       */
+/*   Updated: 2023/09/04 21:59:11 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,14 @@ int	game_loop(t_data *data)
 {
 	if (!data->is_game_running)
 		release_resources(data);
-	
-	//update
 	move_player(data);
 	cast_all_rays(data);
-	
-	//render
 	mlx_clear_window(data->mlx_ptr, data->mlx_win);
 	render_walls(data);
 	render_map(data);
 	render_player(data);
 	render_ray(data);
 	render_color_buffer(data);
-	
 	return (true);
 }
 
@@ -60,8 +55,11 @@ int	main(int argc, char *argv[])
 {
 	t_data	data;
 
-	if (argc != 2)
-		return (ft_putstr_fd("\x1B[31mIncorrect Number of Arguments!\x1B[0m\n", 2), 1);
+	if (argc > 2)
+		return (ft_putstr_fd("\x1B[31mOnly One Argument Needed!\x1B[0m\n", 2), 1);
+	if (argc < 2 || ft_strlen(argv[1]) < 4 
+		|| ft_strcmp(&argv[1][ft_strlen(argv[1]) - 4], ".cub"))
+		return (ft_putstr_fd("\x1B[31mEnter .cub file!\x1B[0m\n", 2), 1);
 	if (!parse(&data, argv[1]))
 		return (1);
 	setup(&data);

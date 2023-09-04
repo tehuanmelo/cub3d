@@ -6,7 +6,7 @@
 /*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:10:51 by mgoltay           #+#    #+#             */
-/*   Updated: 2022/10/13 20:01:30 by mgoltay          ###   ########.fr       */
+/*   Updated: 2023/09/04 19:35:12 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ int	ft_strlen_nl(char *str, int detect_nl)
 	return (c);
 }
 
-int	isin(char *buffer, char c)
+int	isin(char c, char *buffer)
 {
+	if (!buffer)
+		return (0);
 	while (*buffer)
 		if (*(buffer++) == c)
 			return (1);

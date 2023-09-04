@@ -6,13 +6,13 @@
 /*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 18:57:25 by mgoltay           #+#    #+#             */
-/*   Updated: 2023/09/04 18:52:09 by mgoltay          ###   ########.fr       */
+/*   Updated: 2023/09/04 22:12:54 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-int	maxLength(t_list *head)
+int	maxlength(t_list *head)
 {
 	int	max;
 
@@ -26,13 +26,13 @@ int	maxLength(t_list *head)
 	return (max);
 }
 
-void	parseMap(t_data *data, t_list *head)
+void	parsemap(t_data *data, t_list *head)
 {
 	int	i;
 	int	j;
 
 	data->map_num_rows = ft_lstsize(head);
-	data->map_num_cols = maxLength(head);
+	data->map_num_cols = maxlength(head);
 	data->map = make2d(data->map_num_rows, data->map_num_cols);
 	i = -1;
 	while (++i < data->map_num_rows)
@@ -44,7 +44,7 @@ void	parseMap(t_data *data, t_list *head)
 	}
 }
 
-int	isFirstMapLine(char *str)
+int	isfirstmapline(char *str)
 {
 	int	flag;
 
@@ -59,7 +59,7 @@ int	isFirstMapLine(char *str)
 	return (flag);
 }
 
-void	extractMap(t_data *data, t_list **head)
+void	extractmap(t_data *data, t_list **head)
 {
 	t_list	*map;
 	t_list	*info;
@@ -68,7 +68,7 @@ void	extractMap(t_data *data, t_list **head)
 		return ;
 	map = *head;
 	info = *head;
-	while (map && !isFirstMapLine(map->content))
+	while (map && !isfirstmapline(map->content))
 		map = map->next;
 	if (!map || map == info)
 		ft_lstclear(head);
@@ -77,7 +77,7 @@ void	extractMap(t_data *data, t_list **head)
 		while (info->next != map)
 			info = info->next;
 		info->next = NULL;
-		if (!parseData(data, *head))
+		if (!parsedata(data, *head))
 		{
 			ft_lstclear(head);
 			ft_lstclear(&map);
@@ -89,8 +89,8 @@ void	extractMap(t_data *data, t_list **head)
 
 int	parse(t_data *data, char *filename)
 {
-	int	fd;
-	t_list *head;
+	int		fd;
+	t_list	*head;
 
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
@@ -100,14 +100,14 @@ int	parse(t_data *data, char *filename)
 		ft_putstr_fd("'!\x1B[0m\n", 2);
 		return (0);
 	}
-	head = readLines(fd);
+	head = readlines(fd);
 	close(fd);
-	extractMap(data, &head);
+	extractmap(data, &head);
 	if (!head)
 		return (ft_putstr_fd("\x1B[31mError!\x1B[0m\n", 2), 0);
-	parseMap(data, head);
+	parsemap(data, head);
 	ft_lstclear(&head);
-	if (!(charCheck(data) && isSurrounded(data) && floodFill(data)))
-		return (ft_putstr_fd("\x1B[31mError!\x1B[0m\n", 2), 0); //free stuff, map, textures, init
+	if (!(charcheck(data) && issurrounded(data) && floodfill(data)))
+		return (parse_release(data), 0);
 	return (1);
 }

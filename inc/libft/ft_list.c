@@ -6,7 +6,7 @@
 /*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 16:21:37 by mgoltay           #+#    #+#             */
-/*   Updated: 2023/09/04 17:52:10 by mgoltay          ###   ########.fr       */
+/*   Updated: 2023/09/04 19:39:18 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ t_list	*ft_lstnew(char *content)
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	t_list *last;
+	t_list	*last;
+
 	if (!lst)
 		return ;
 	if (!(*lst))
@@ -50,9 +51,9 @@ int	ft_lstsize(t_list *lst)
 	return (count);
 }
 
-void	delOne(t_list **ptr)
+void	delone(t_list **ptr)
 {
-	t_list *temp;
+	t_list	*temp;
 
 	if (!ptr || !(*ptr))
 		return ;

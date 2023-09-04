@@ -6,7 +6,7 @@
 /*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:08:34 by mgoltay           #+#    #+#             */
-/*   Updated: 2023/08/30 19:34:56 by mgoltay          ###   ########.fr       */
+/*   Updated: 2023/09/04 19:34:08 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	makeline(int fd, char buffer[], char **line)
 	int	bytes;
 
 	bytes = 1;
-	while (bytes && !isin(*line, '\n'))
+	while (bytes && !isin('\n', *line))
 	{
 		if (!buffer[0])
 			bytes = read(fd, buffer, BUFFER_SIZE);

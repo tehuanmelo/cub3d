@@ -6,7 +6,7 @@
 /*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 15:04:59 by mgoltay           #+#    #+#             */
-/*   Updated: 2023/09/04 17:54:05 by mgoltay          ###   ########.fr       */
+/*   Updated: 2023/09/04 22:06:21 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	free2d(char **strs)
 	free(strs);
 }
 
-t_list	*readLines(int fd)
+t_list	*readlines(int fd)
 {
 	t_list	*head;
 	char	*str;
@@ -61,17 +61,7 @@ t_list	*readLines(int fd)
 	return (head);
 }
 
-int	isIn(char c, char *str)
-{
-	if (!str)
-		return (0);
-	while (*str)
-		if (*(str++) == c)
-			return (1);
-	return (0);
-}
-
-int	isEmptyLine(char *str)
+int	isemptyline(char *str)
 {
 	int	i;
 
@@ -84,27 +74,17 @@ int	isEmptyLine(char *str)
 	return (1);
 }
 
-
-
-// delete these two before submission
-void	printlist(t_list *head)
+void	stopcorner(t_data *data, char **checked)
 {
-	if (!head)
-		ft_putstr_fd("EMPTYLIST\n", 1);
-	while (head)
+	int	x;
+	int	y;
+
+	x = -1;
+	while (++x < data->map_num_rows)
 	{
-		ft_putstr_fd(head->content, 1);
-		ft_putstr_fd("\n", 1);
-		head = head->next;
+		y = -1;
+		while (++y < data->map_num_cols)
+			if (data->map[x][y] == '0' && !checked[x][y])
+				data->map[x][y] = ' ';
 	}
-}
-
-void	printMap(t_data *data)
-{
-	for (int i = 0; i < data->map_num_rows; i++)
-	{
-		for (int j = 0; j < data->map_num_cols; j++)
-			write(1, &data->map[i][j], 1);
-		ft_putstr_fd("\n", 1);
-	}		
 }

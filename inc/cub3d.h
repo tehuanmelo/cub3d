@@ -6,7 +6,7 @@
 /*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:44:27 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/09/04 18:04:15 by mgoltay          ###   ########.fr       */
+/*   Updated: 2023/09/04 22:15:46 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,35 +223,30 @@ void				init_wall(t_data *data, t_wall *wall, int x);
 void				draw_wall(t_data *data, t_wall wall, int x);
 void				render_walls(t_data *data);
 
-// textures.c
-t_image				*get_textures(t_data *data);
-
 // release.c
+void				parse_release(t_data *data);
 int					release_resources(t_data *data);
 
 // check.c
-int					charCheck(t_data *data);
-int					isSurrounded(t_data *data);
-int					floodFill(t_data *data);
+int					charcheck(t_data *data);
+int					issurrounded(t_data *data);
+int					floodfill(t_data *data);
 
 // info.c
-int			parseData(t_data *data, t_list *info);
+int					parsedata(t_data *data, t_list *info);
 
 // parse.c
-int				parse(t_data *data, char *filename);
+int					parse(t_data *data, char *filename);
 
 // utils.c
-char			**make2d(int rows, int cols);
-void			free2d(char **strs);
-t_list			*readLines(int fd);
-int				isIn(char c, char *str);
-int				isEmptyLine(char *str);
-
-void			printlist(t_list *head);
-void			printMap(t_data *data);
+char				**make2d(int rows, int cols);
+void				free2d(char **strs);
+t_list				*readlines(int fd);
+int					isemptyline(char *str);
+void				stopcorner(t_data *data, char **checked);
 
 // putinfo.c
-int				putData(t_data *data, char *strinfo[6]);
-
+int					putdata(t_data *data, char *strinfo[6]);
+void				removestart(char *str);
 
 #endif

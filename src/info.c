@@ -6,25 +6,14 @@
 /*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 19:01:42 by mgoltay           #+#    #+#             */
-/*   Updated: 2023/09/04 18:49:34 by mgoltay          ###   ########.fr       */
+/*   Updated: 2023/09/04 22:14:49 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-void	removeStart(char *str)
-{
-	int	i;
-
-	if (!str || !str[0])
-		return ;
-	i = -1;
-	while (str[++i])
-		str[i] = str[i + 1];
-}
-
 // NO, SO, WE, EA, F, C
-int	indexInfo(char *str)
+int	indexinfo(char *str)
 {
 	if (!ft_strncmp(str, "NO ", 3))
 		return (0);
@@ -41,49 +30,51 @@ int	indexInfo(char *str)
 	return (-1);
 }
 
-void	cleanSpaces(char *str)
+void	cleanspaces(char *str)
 {
 	int	i;
 
 	if (!str || !str[0])
 		return ;
-	while (isIn(str[0], " \t"))
-		removeStart(str);
-	while (str[0] && isIn(str[ft_strlen(str) - 1], " \t"))
-		removeStart(&str[ft_strlen(str) - 1]);
+	while (isin(str[0], " \t"))
+		removestart(str);
+	while (str[0] && isin(str[ft_strlen(str) - 1], " \t"))
+		removestart(&str[ft_strlen(str) - 1]);
 	i = -1;
 	while (str[++i])
+	{
 		if (str[i] == ' ')
 		{
-			while (isIn(str[i + 1], " \t"))
-				removeStart(&str[i + 1]);
+			while (isin(str[i + 1], " \t"))
+				removestart(&str[i + 1]);
 			break ;
 		}
-	if (indexInfo(str) == 4 || indexInfo(str) == 5)
+	}
+	if (indexinfo(str) == 4 || indexinfo(str) == 5)
 		while (str[++i])
-			if (isIn(str[i], " \t"))
-				removeStart(&str[i]);
+			if (isin(str[i], " \t"))
+				removestart(&str[i]);
 }
 
-void	cleanList(t_list **head)
+void	cleanlist(t_list **head)
 {
-	t_list *info;
+	t_list	*info;
 
 	if (!head || !(*head))
 		return ;
-	while (isEmptyLine((*head)->content))
-		delOne(head);
+	while (isemptyline((*head)->content))
+		delone(head);
 	info = *head;
 	while (info && info->next)
 	{
-		while (info && info->next && isEmptyLine(info->next->content))
-			delOne(&info->next);
-		cleanSpaces(info->content);
+		while (info && info->next && isemptyline(info->next->content))
+			delone(&info->next);
+		cleanspaces(info->content);
 		info = info->next;
 	}
 }
 
-int	isValid(char *strinfo[6], t_list *info)
+int	isvalid(char *strinfo[6], t_list *info)
 {
 	int		index;
 
@@ -94,7 +85,7 @@ int	isValid(char *strinfo[6], t_list *info)
 		strinfo[index] = NULL;
 	while (info)
 	{
-		index = indexInfo(info->content);
+		index = indexinfo(info->content);
 		if (index == -1)
 			return (0);
 		if (strinfo[index] != NULL)
@@ -110,12 +101,12 @@ int	isValid(char *strinfo[6], t_list *info)
 	return (1);
 }
 
-int	parseData(t_data *data, t_list *info)
+int	parsedata(t_data *data, t_list *info)
 {
 	char	*strinfo[6];
 
-	cleanList(&info);
-	if (!info || !isValid(strinfo, info) || !putData(data, strinfo))
+	cleanlist(&info);
+	if (!info || !isvalid(strinfo, info) || !putdata(data, strinfo))
 		return (0);
 	return (ft_lstclear(&info), 1);
 }
