@@ -6,13 +6,11 @@
 /*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 18:57:25 by mgoltay           #+#    #+#             */
-/*   Updated: 2023/09/03 21:33:30 by mgoltay          ###   ########.fr       */
+/*   Updated: 2023/09/04 18:52:09 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
-
-
 
 int	maxLength(t_list *head)
 {
@@ -80,7 +78,10 @@ void	extractMap(t_data *data, t_list **head)
 			info = info->next;
 		info->next = NULL;
 		if (!parseData(data, *head))
+		{
 			ft_lstclear(head);
+			ft_lstclear(&map);
+		}
 		else
 			*head = map;
 	}
@@ -106,7 +107,7 @@ int	parse(t_data *data, char *filename)
 		return (ft_putstr_fd("\x1B[31mError!\x1B[0m\n", 2), 0);
 	parseMap(data, head);
 	ft_lstclear(&head);
-	if (!mapCheck(data))
+	if (!(charCheck(data) && isSurrounded(data) && floodFill(data)))
 		return (ft_putstr_fd("\x1B[31mError!\x1B[0m\n", 2), 0); //free stuff, map, textures, init
 	return (1);
 }

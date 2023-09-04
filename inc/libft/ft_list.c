@@ -6,7 +6,7 @@
 /*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 16:21:37 by mgoltay           #+#    #+#             */
-/*   Updated: 2023/09/02 16:31:09 by mgoltay          ###   ########.fr       */
+/*   Updated: 2023/09/04 17:52:10 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,20 @@ t_list	*ft_lstnew(char *content)
 	return (node);
 }
 
-t_list	*ft_lstlast(t_list *lst)
-{
-	if (!lst)
-		return (0);
-	while (lst->next)
-		lst = lst->next;
-	return (lst);
-}
-
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
+	t_list *last;
 	if (!lst)
 		return ;
 	if (!(*lst))
 		*lst = new;
 	else
-		(ft_lstlast(*lst))->next = new;
+	{
+		last = *lst;
+		while (last->next)
+			last = last->next;
+		last->next = new;
+	}
 }
 
 int	ft_lstsize(t_list *lst)
@@ -51,6 +48,20 @@ int	ft_lstsize(t_list *lst)
 	while (lst && ++count)
 		lst = lst->next;
 	return (count);
+}
+
+void	delOne(t_list **ptr)
+{
+	t_list *temp;
+
+	if (!ptr || !(*ptr))
+		return ;
+	temp = *ptr;
+	*ptr = temp->next;
+	if (temp && temp->content)
+		free(temp->content);
+	if (temp)
+		free(temp);
 }
 
 void	ft_lstclear(t_list **lst)

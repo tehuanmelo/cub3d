@@ -6,7 +6,7 @@
 /*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 15:04:59 by mgoltay           #+#    #+#             */
-/*   Updated: 2023/09/03 21:18:48 by mgoltay          ###   ########.fr       */
+/*   Updated: 2023/09/04 17:54:05 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,32 @@ t_list	*readLines(int fd)
 	return (head);
 }
 
+int	isIn(char c, char *str)
+{
+	if (!str)
+		return (0);
+	while (*str)
+		if (*(str++) == c)
+			return (1);
+	return (0);
+}
+
+int	isEmptyLine(char *str)
+{
+	int	i;
+
+	if (!str)
+		return (1);
+	i = -1;
+	while (str[++i])
+		if (str[i] != ' ' || str[i] != '\t')
+			return (0);
+	return (1);
+}
+
+
+
+// delete these two before submission
 void	printlist(t_list *head)
 {
 	if (!head)
@@ -81,14 +107,4 @@ void	printMap(t_data *data)
 			write(1, &data->map[i][j], 1);
 		ft_putstr_fd("\n", 1);
 	}		
-}
-
-int	isIn(char c, char *str)
-{
-	if (!str)
-		return (0);
-	while (*str)
-		if (*(str++) == c)
-			return (1);
-	return (0);
 }

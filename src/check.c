@@ -6,7 +6,7 @@
 /*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:29:15 by mgoltay           #+#    #+#             */
-/*   Updated: 2023/09/03 19:06:13 by mgoltay          ###   ########.fr       */
+/*   Updated: 2023/09/04 18:05:45 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int	isSurroundedR(t_data *data)
 	return (1);
 }
 
-int	isSurroundedC(t_data *data)
+int	isSurrounded(t_data *data)
 {
 	int	i;
 	int	j;
@@ -125,7 +125,7 @@ int	isSurroundedC(t_data *data)
 			if (data->map[i--][j] != ' ')
 				return (0);
 	}
-	return (1);
+	return (1 && isSurroundedR(data));
 }
 
 int	charCheck(t_data *data)
@@ -149,15 +149,3 @@ int	charCheck(t_data *data)
 	}
 	return (playercount == 1);
 }
-
-int	mapCheck(t_data *data)
-{
-	if (!(charCheck(data) && isSurroundedR(data) && isSurroundedC(data) && floodFill(data)))
-		return (0);
-	return (1);
-}
-
-// checks:
-// one player only
-// virus program to spread and see if player can walk out
-// border to nearest 1, anything other than space?

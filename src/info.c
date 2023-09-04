@@ -6,38 +6,11 @@
 /*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 19:01:42 by mgoltay           #+#    #+#             */
-/*   Updated: 2023/09/03 21:33:15 by mgoltay          ###   ########.fr       */
+/*   Updated: 2023/09/04 18:49:34 by mgoltay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
-
-int	isEmptyLine(char *str)
-{
-	int	i;
-
-	if (!str)
-		return (1);
-	i = -1;
-	while (str[++i])
-		if (str[i] != ' ' || str[i] != '\t')
-			return (0);
-	return (1);
-}
-
-void	delOne(t_list **ptr)
-{
-	t_list *temp;
-
-	if (!ptr || !(*ptr))
-		return ;
-	temp = *ptr;
-	*ptr = temp->next;
-	if (temp && temp->content)
-		free(temp->content);
-	if (temp)
-		free(temp);
-}
 
 void	removeStart(char *str)
 {
@@ -110,14 +83,11 @@ void	cleanList(t_list **head)
 	}
 }
 
-int	isValid(t_data *data, t_list *info)
+int	isValid(char *strinfo[6], t_list *info)
 {
-	char	*strinfo[6];
 	int		index;
-	
-	(void) data; // store into array and see if empty or double
 
-	if (ft_lstsize(info) < 6)
+	if (ft_lstsize(info) != 6)
 		return (0);
 	index = -1;
 	while (++index < 6)
@@ -142,17 +112,10 @@ int	isValid(t_data *data, t_list *info)
 
 int	parseData(t_data *data, t_list *info)
 {
-	// char	*strinfo[6];
+	char	*strinfo[6];
 
 	cleanList(&info);
-	if (!info)
+	if (!info || !isValid(strinfo, info) || !putData(data, strinfo))
 		return (0);
-	if (!isValid(data, info))
-		return (0);
-	ft_lstclear(&info);
-	data->cealing_color = DARK_GREY;
-	data->floor_color = LIGHT_GREY;
-	data->mlx_ptr = mlx_init();
-	data->textures = get_textures(data);
-	return (1);
+	return (ft_lstclear(&info), 1);
 }
