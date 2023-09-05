@@ -6,7 +6,7 @@
 /*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:47:02 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/09/05 18:41:16 by tde-melo         ###   ########.fr       */
+/*   Updated: 2023/09/05 19:09:31 by tde-melo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	setup(t_data *data)
 	data->rays = malloc(data->num_rays * sizeof(t_ray));
 	data->color_buffer = malloc((WINDOW_WIDTH * WINDOW_HEIGHT) * sizeof(int));
 	get_player_position(data);
-	init_buffer_image(data);
 }
 
 int	game_loop(t_data *data)

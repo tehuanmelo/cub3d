@@ -3,8 +3,7 @@ NAME = cub3d
 
 # flags
 CC = gcc
-# CFLAGS = -Wall -Werror -Wextra
-CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g
+CFLAGS = -Wall -Werror -Wextra
 
 # directories
 OBJDIR = ./obj/

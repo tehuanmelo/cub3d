@@ -6,7 +6,7 @@
 /*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:47:56 by mgoltay           #+#    #+#             */
-/*   Updated: 2023/09/05 17:53:46 by tde-melo         ###   ########.fr       */
+/*   Updated: 2023/09/05 20:54:32 by tde-melo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	putdata(t_data *data, char *strinfo[6])
 	{
 		data->textures[i] = create_image(data, &strinfo[i][3]);
 		if (!data->textures[i].img)
-			return 0;
+			return (free(data->textures), 0);
 	}
 	return (1);
 }
