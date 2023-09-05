@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   putinfo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:47:56 by mgoltay           #+#    #+#             */
-/*   Updated: 2023/09/04 22:15:29 by mgoltay          ###   ########.fr       */
+/*   Updated: 2023/09/05 17:53:46 by tde-melo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,10 @@ int	putdata(t_data *data, char *strinfo[6])
 	data->mlx_ptr = mlx_init();
 	i = -1;
 	while (++i < 4)
+	{
 		data->textures[i] = create_image(data, &strinfo[i][3]);
+		if (!data->textures[i].img)
+			return 0;
+	}
 	return (1);
 }

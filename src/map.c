@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 19:28:23 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/09/02 21:36:26 by mgoltay          ###   ########.fr       */
+/*   Updated: 2023/09/05 15:35:12 by tde-melo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
+
+float	map_scale_factor(t_data *data)
+{
+	float factor;
+
+	factor = 0.15;
+	while ((data->map_num_rows * 64 * factor > WINDOW_HEIGHT / 4) || (data->map_num_cols * 64 * factor > WINDOW_WIDTH / 4))
+		factor -= 0.01;
+	return factor;
+}
 
 bool	is_wall_at(t_data *data, float x, float y)
 {
@@ -37,10 +47,10 @@ void	render_map(t_data *data)
 		j = -1;
 		while (++j < data->map_num_cols)
 		{
-			rect.x = (j * TILE_SIZE) * MINI_MAP_SCALE;
-			rect.y = (i * TILE_SIZE) * MINI_MAP_SCALE;
-			rect.height = TILE_SIZE * MINI_MAP_SCALE;
-			rect.width = TILE_SIZE * MINI_MAP_SCALE;
+			rect.x = (j * TILE_SIZE) * data->mini_map_scale;
+			rect.y = (i * TILE_SIZE) * data->mini_map_scale;
+			rect.height = TILE_SIZE * data->mini_map_scale;
+			rect.width = TILE_SIZE * data->mini_map_scale;
 			if (data->map[i][j] == '1')
 				rect.color = WHITE;
 			else

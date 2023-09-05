@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:44:27 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/09/04 22:15:46 by mgoltay          ###   ########.fr       */
+/*   Updated: 2023/09/05 15:48:32 by tde-melo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@
 # define MINI_MAP_SCALE 0.15
 # define WINDOW_WIDTH 1280
 # define WINDOW_HEIGHT 800
-# define PLAYER_WIDTH 6
-# define PLAYER_HEIGHT 6
+# define PLAYER_WIDTH 3
+# define PLAYER_HEIGHT 3
 
 # define WALK_SPEED 8
 # define TURN_SPEED 4
@@ -154,6 +154,7 @@ typedef struct s_data
 {
 	void			*mlx_ptr;
 	void			*mlx_win;
+	float			mini_map_scale;
 	int				map_num_rows;
 	int				map_num_cols;
 	int				num_rays;
@@ -184,6 +185,7 @@ void				draw_line(t_data *data, t_line line);
 void				render_map(t_data *data);
 bool				is_wall_at(t_data *data, float x, float y);
 bool				is_inside_map(t_data *data, float x, float y);
+float				map_scale_factor(t_data *data);
 
 // my_mlx.c
 int					my_mlx_pixel_get(t_image *img, int x, int y);

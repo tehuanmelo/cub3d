@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
+/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 00:31:03 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/31 16:29:01 by tehuanmelo       ###   ########.fr       */
+/*   Updated: 2023/09/05 15:47:52 by tde-melo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ void	render_player(t_data *data)
 {
 	t_rect	rect;
 
-	rect.x = (data->player.x - 20) * MINI_MAP_SCALE;
-	rect.y = (data->player.y - 20) * MINI_MAP_SCALE;
+	rect.x = (data->player.x * data->mini_map_scale) - PLAYER_WIDTH / 2;
+	rect.y = (data->player.y * data->mini_map_scale) - PLAYER_HEIGHT / 2;
 	rect.height = PLAYER_HEIGHT;
 	rect.width = PLAYER_WIDTH;
 	rect.color = RED;

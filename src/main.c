@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:47:02 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/09/04 21:59:11 by mgoltay          ###   ########.fr       */
+/*   Updated: 2023/09/05 18:41:16 by tde-melo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	setup(t_data *data)
 	data->mlx_win = NULL;
 	data->is_game_running = false;
 	data->num_rays = WINDOW_WIDTH;
+	data->mini_map_scale = map_scale_factor(data);
 	data->player.walk_direction = 0;
 	data->player.side_direction = 0;
 	data->player.turn_direction = 0;

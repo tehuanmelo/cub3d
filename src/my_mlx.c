@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   my_mlx.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgoltay <mgoltay@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 20:12:23 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/08/30 19:17:47 by mgoltay          ###   ########.fr       */
+/*   Updated: 2023/09/05 17:57:23 by tde-melo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ t_image	create_image(t_data *data, char *image_path)
 	img.height = 64;
 	img.img = mlx_xpm_file_to_image(data->mlx_ptr, image_path, &img.width,
 			&img.height);
+	if (!img.img)
+		return img;
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 			&img.endian);
 	return (img);
