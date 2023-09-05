@@ -6,7 +6,7 @@
 /*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 15:58:50 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/09/05 18:19:20 by tde-melo         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:59:56 by tde-melo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	render_color_buffer(t_data *data)
 	int	x;
 	int	y;
 
+	init_buffer_image(data);
 	x = -1;
 	while (++x < WINDOW_WIDTH)
 	{
@@ -55,4 +56,5 @@ void	render_color_buffer(t_data *data)
 	clear_color_buffer(data, 0x000000);
 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win,
 		data->buffer_image.img, 0, 0);
+	mlx_destroy_image(data->mlx_ptr, data->buffer_image.img);
 }
