@@ -75,6 +75,10 @@ int	checkdata(char *strinfo[6])
 		return (0);
 	i = -1;
 	while (++i < 4)
+		if (ft_strlen(strinfo[i]) < 4 || ft_strcmp(&strinfo[i][ft_strlen(strinfo[i]) - 4], ".xpm"))
+			return (0);
+	i = -1;
+	while (++i < 4)
 		fd[i] = open(&strinfo[i][3], O_RDONLY);
 	i = -1;
 	while (++i < 4)
