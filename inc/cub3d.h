@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tde-melo <tde-melo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tehuanmelo <tehuanmelo@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:44:27 by tehuanmelo        #+#    #+#             */
-/*   Updated: 2023/09/05 15:48:32 by tde-melo         ###   ########.fr       */
+/*   Updated: 2023/09/08 10:24:04 by tehuanmelo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,13 @@
 # define TWO_PI 6.28318530
 # define TILE_SIZE 64
 # define FOV_ANGLE 1.0471975500000001 // is the result of 60 * (PI / 180)
-# define MINI_MAP_SCALE 0.15
 # define WINDOW_WIDTH 1280
 # define WINDOW_HEIGHT 800
 # define PLAYER_WIDTH 3
 # define PLAYER_HEIGHT 3
 
-# define WALK_SPEED 8
-# define TURN_SPEED 4
+# define WALK_SPEED 4
+# define TURN_SPEED 2
 
 # define WHITE 0xFFFFFF
 # define RED 0xFF0000
