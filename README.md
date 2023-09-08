@@ -2,7 +2,8 @@
 
 cub3D is a project at 42 School designed to introduce you to the world of raycasting, a fundamental technique used in 3D game development. In this project, you'll create a simple 3D game engine capable of rendering a maze-like world, and you'll be able to move around in this world using basic controls. This README file will provide you with all the information you need to get started with cub3D.
 
-![Untitled-3](https://github.com/tehuanmelo/cub3d/assets/59938530/4741348e-d606-40bf-9d2c-84abefd921ed)
+![Untitled-4](https://github.com/tehuanmelo/cub3d/assets/59938530/b647310d-752a-42ec-9cae-8fd674030e39)
+
 
 ## Table of Contents
 
